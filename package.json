@@ -1,0 +1,48 @@
+{
+  "name": "editorial-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "next"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/react-hooks": "0.1.0-beta.11",
+    "@apollo/react-ssr": "0.1.0-beta.1",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link-http": "^1.5.15",
+    "apollo-link-ws": "^1.0.18",
+    "graphql": "^14.4.2",
+    "grommet": "^2.7.4",
+    "grommet-icons": "^4.2.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.0.2",
+    "next-with-apollo": "^4.1.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "styled-components": "^4.3.2",
+    "subscriptions-transport-ws": "^0.9.16"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.2.3",
+    "@types/node": "^12.6.8",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
+    "@types/styled-components": "^4.1.18",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "babel-plugin-styled-components": "^1.10.6",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "npm-check-updates": "^3.1.20",
+    "prettier": "^1.18.2",
+    "prettier-eslint": "^9.0.0",
+    "typescript": "^3.5.3"
+  }
+}

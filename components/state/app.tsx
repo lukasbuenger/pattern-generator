@@ -10,9 +10,7 @@ import {
   initialAppState,
   AppReducer,
   reducer,
-  ActionTypes,
-  GridState,
-} from '../lib/state'
+} from '../../lib/state'
 
 const AppContext = createContext<AppValue>([
   initialAppState,
@@ -38,24 +36,4 @@ export const AppProvider: SFC<AppProviderProps> = ({
 
 export function useApp() {
   return useContext(AppContext)
-}
-
-export function useGrid(): [GridState, any] {
-  const [state, dispatch] = useApp()
-  return [
-    state.grid,
-    (
-      width: number,
-      height: number,
-      spacing: number,
-    ): void =>
-      dispatch({
-        type: ActionTypes.UPDATE_GRID,
-        payload: {
-          width,
-          height,
-          spacing,
-        },
-      }),
-  ]
 }

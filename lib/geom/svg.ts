@@ -4,7 +4,7 @@ import {
   subtract,
   resize,
   Polygon,
-  getAbsoluteBorderRadius,
+  getAbsoluteRadius,
 } from './base'
 
 export function previousVertex(
@@ -46,26 +46,21 @@ export function vertexToCommand(
   b: Vertex,
   c: Vertex,
 ): PathCommand {
-  const [ctrl, borderRadius, isAbsolute] = b
-  if (borderRadius === 0) {
+  const [ctrl, radius, isAbsolute] = b
+  if (radius === 0) {
     return { type: PathCommands.LINE, params: [ctrl] }
   }
-  const radius = !isAbsolute
-    ? borderRadius
-    : getAbsoluteBorderRadius(
-        a[0],
-        b[0],
-        c[0],
-        borderRadius,
-      )
+  const r = !isAbsolute
+    ? radius
+    : getAbsoluteRadius(a[0], b[0], c[0], radius)
 
   const u = subtract(ctrl, a[0])
   const v = subtract(ctrl, c[0])
-  const u2 = subtract(ctrl, resize(radius, u))
-  const v2 = subtract(ctrl, resize(radius, v))
+  const u2 = subtract(ctrl, resize(r, u))
+  const v2 = subtract(ctrl, resize(r, v))
 
-  const u2ctrl = subtract(ctrl, resize(radius / 2, u))
-  const v2ctrl = subtract(ctrl, resize(radius / 2, v))
+  const u2ctrl = subtract(ctrl, resize(r / 2, u))
+  const v2ctrl = subtract(ctrl, resize(r / 2, v))
 
   return {
     type: PathCommands.CURVE,

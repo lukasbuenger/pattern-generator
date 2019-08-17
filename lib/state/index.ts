@@ -1,58 +1,57 @@
 import { Dispatch, Reducer } from 'react'
+import { Action } from './base'
 
-export interface GridState {
-  width: number
-  height: number
-  spacing: number
-  maxWidth?: number
-  maxHeight?: number
-  maxSpacing?: number
-}
+import {
+  GridState,
+  GridActionTypes,
+  GridAction,
+  gridReducer,
+  initialGridState,
+} from './grid'
 
-export enum ActionTypes {
-  UPDATE_GRID = 'updateGrid',
-}
+import {
+  ShapeState,
+  ShapeActionTypes,
+  ShapeAction,
+  shapeReducer,
+  initialShapeState,
+} from './shape'
 
-export interface Action {
-  type: string
-  payload: {
-    [k: string]: any
-  }
-}
+export type ActionTypes = GridActionTypes & ShapeActionTypes
 
 export type AppReducer = Reducer<AppState, Action>
 
-export function reducer(
-  state: AppState,
-  { type, payload }: Action,
-) {
-  switch (type) {
-    case ActionTypes.UPDATE_GRID:
-      return {
-        ...state,
-        grid: {
-          width: payload.width,
-          height: payload.height,
-          spacing: payload.spacing,
-        },
-      }
-    default:
-      return state
+export function reducer(state: AppState, action: Action) {
+  if (
+    Object.values(GridActionTypes).includes(action.type)
+  ) {
+    return {
+      ...state,
+      grid: gridReducer(state.grid, action as GridAction),
+    }
+  } else if (
+    Object.values(ShapeActionTypes).includes(action.type)
+  ) {
+    return {
+      ...state,
+      shape: shapeReducer(
+        state.shape,
+        action as ShapeAction,
+      ),
+    }
+  } else {
+    return state
   }
-}
-
-export const initialGridState: GridState = {
-  width: 1,
-  height: 1,
-  spacing: 0,
 }
 
 export interface AppState {
   grid: GridState
+  shape: ShapeState
 }
 
 export const initialAppState: AppState = {
   grid: initialGridState,
+  shape: initialShapeState,
 }
 
 export type AppValue = [AppState, Dispatch<Action>]

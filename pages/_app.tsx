@@ -2,7 +2,7 @@ import NextApp, { Container } from 'next/app'
 
 import { Grommet } from 'grommet'
 import { grommet } from 'grommet/themes'
-import { AppProvider } from '../components/app'
+import { AppProvider } from '../components/state/app'
 
 class App extends NextApp {
   public render() {

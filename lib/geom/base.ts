@@ -39,11 +39,11 @@ export function translateY(
   return [u[0], u[1] + additive]
 }
 
-export function getAbsoluteBorderRadius(
+export function getAbsoluteRadius(
   a: Vector,
   b: Vector,
   c: Vector,
-  borderRadius: number,
+  radius: number,
 ): number {
   const edgeA = 1
   const u = subtract(b, a)
@@ -56,17 +56,17 @@ export function getAbsoluteBorderRadius(
   const gamma = Math.acos(
     1 - Math.pow(edgeC, 2) / Math.pow(2 * edgeA, 2),
   )
-  return borderRadius / 2 / Math.sin(gamma / 2)
+  return radius / 2 / Math.sin(gamma / 2)
 }
 
 export type Vertex = [Vector, number, boolean]
 export function vertex(
   x: number,
   y: number,
-  borderRadius: number = 0,
+  radius: number = 0,
   isAbsolute: boolean = true,
 ): Vertex {
-  return [vector(x, y), borderRadius, isAbsolute]
+  return [vector(x, y), radius, isAbsolute]
 }
 
 export interface Polygon extends Array<Vertex> {
@@ -82,4 +82,14 @@ export function polygon(
   ...vertices: Vertex[]
 ): Polygon {
   return [a, b, c, ...vertices]
+}
+
+export function replaceVertexInPoly(
+  poly: Polygon,
+  index: number,
+  a: Vertex,
+): Polygon {
+  const nextPoly = [...poly]
+  nextPoly.splice(index, 1, a)
+  return nextPoly as Polygon
 }

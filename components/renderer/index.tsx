@@ -1,6 +1,18 @@
-import { SFC } from 'react'
+import { SFC, SVGProps } from 'react'
 
 import { Polygon, polyAsSVGPath } from '../../lib/geom'
+
+export interface PolygonRendererProps
+  extends SVGProps<SVGPathElement> {
+  polygon: Polygon
+}
+
+export const PolygonRenderer: SFC<PolygonRendererProps> = ({
+  polygon,
+  ...props
+}) => {
+  return <path d={polyAsSVGPath(polygon)} {...props} />
+}
 
 export interface RendererProps {
   polygons: Polygon[]
@@ -20,10 +32,9 @@ export const Renderer: SFC<RendererProps> = ({
   const renderedPolys = polygons.map(
     (poly: Polygon, index: number) => {
       return (
-        <path
+        <PolygonRenderer
           key={`poly-${index}`}
-          d={polyAsSVGPath(poly)}
-          fill="#000"
+          polygon={poly}
         />
       )
     },

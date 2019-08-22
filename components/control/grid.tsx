@@ -1,5 +1,6 @@
 import { SFC, useCallback } from 'react'
-import { RangeInput, Box, Text } from 'grommet'
+import { Box } from 'grommet'
+import { ComboRangeInput } from '../form/combo-range-input'
 
 export interface GridControlProps {
   width?: number
@@ -54,24 +55,27 @@ export const GridControl: SFC<GridControlProps> = ({
 
   return (
     <Box direction="column">
-      <Text as="label">Width</Text>
-      <RangeInput
+      <ComboRangeInput
+        label="Width"
         min={1}
         max={maxWidth || 200}
+        step={1}
         value={width}
         onChange={widthChangeHandler}
       />
-      <Text as="label">Height</Text>
-      <RangeInput
+      <ComboRangeInput
+        label="Height"
         min={1}
         max={maxHeight || 200}
+        step={1}
         value={height}
         onChange={heightChangeHandler}
       />
-      <Text as="label">Spacing</Text>
-      <RangeInput
+      <ComboRangeInput
+        label="Spacing"
         min={0}
         max={maxSpacing || 20}
+        step={1}
         value={spacing}
         onChange={spacingChangeHandler}
       />

@@ -6,7 +6,7 @@ export const Layout: SFC<{}> = ({ children }) => {
     <Grid
       fill
       rows={['auto', 'auto']}
-      columns={['small', 'auto']}
+      columns={['medium', 'auto']}
       gap="small"
       areas={[
         { name: 'header', start: [0, 0], end: [1, 0] },

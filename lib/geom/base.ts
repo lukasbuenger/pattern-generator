@@ -1,8 +1,5 @@
 export type Vector = [number, number]
-export function vector(
-  x: number = 0,
-  y: number = 0,
-): Vector {
+export function vector(x = 0, y = 0): Vector {
   return [x, y]
 }
 
@@ -63,8 +60,8 @@ export type Vertex = [Vector, number, boolean]
 export function vertex(
   x: number,
   y: number,
-  radius: number = 0,
-  isAbsolute: boolean = true,
+  radius = 0,
+  isAbsolute = true,
 ): Vertex {
   return [vector(x, y), radius, isAbsolute]
 }
@@ -92,4 +89,44 @@ export function replaceVertexInPoly(
   const nextPoly = [...poly]
   nextPoly.splice(index, 1, a)
   return nextPoly as Polygon
+}
+
+export function updateVertexPosition(
+  poly: Polygon,
+  index: number,
+  x: number,
+  y: number,
+): Polygon {
+  const [, radius, abs] = poly[index]
+  return replaceVertexInPoly(poly, index, [
+    [x, y],
+    radius,
+    abs,
+  ])
+}
+
+export function updateVertexRadius(
+  poly: Polygon,
+  index: number,
+  radius: number,
+): Polygon {
+  const [pos, , abs] = poly[index]
+  return replaceVertexInPoly(poly, index, [
+    pos,
+    radius,
+    abs,
+  ])
+}
+
+export function updateVertexRadiusType(
+  poly: Polygon,
+  index: number,
+  absolute: boolean,
+): Polygon {
+  const [pos, radius] = poly[index]
+  return replaceVertexInPoly(poly, index, [
+    pos,
+    radius,
+    absolute,
+  ])
 }

@@ -1,10 +1,5 @@
 import { Action } from './base'
-import {
-  Polygon,
-  polygon,
-  vertex,
-  replaceVertexInPoly,
-} from '../geom'
+import { Polygon, polygon, vertex } from '../geom'
 
 export interface ShapeState {
   polygon: Polygon
@@ -21,19 +16,7 @@ export interface SetPolygonAction extends Action {
   }
 }
 
-export interface UpdateVertexAction extends Action {
-  payload: {
-    vertex: number
-    x: number
-    y: number
-    radius: number
-    isAbsolute: boolean
-  }
-}
-
-export type ShapeAction =
-  | SetPolygonAction
-  | UpdateVertexAction
+export type ShapeAction = SetPolygonAction
 
 const initialPolygon = polygon(
   vertex(0, 200),
@@ -54,21 +37,6 @@ export function shapeReducer(
       return {
         polygon: (action as SetPolygonAction).payload
           .polygon,
-      }
-    case ShapeActionTypes.UPDATE_VERTEX:
-      const {
-        vertex: a,
-        x,
-        y,
-        radius,
-        isAbsolute,
-      } = (action as UpdateVertexAction).payload
-      return {
-        polygon: replaceVertexInPoly(
-          state.polygon,
-          a,
-          vertex(x, y, radius, isAbsolute),
-        ),
       }
     default:
       return state

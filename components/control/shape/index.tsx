@@ -1,6 +1,47 @@
 import { SFC, useState, useCallback } from 'react'
-import styled from 'styled-components'
-import { Box, CheckBox } from 'grommet'
+import {
+  Theme,
+  Box,
+  Checkbox,
+  Typography,
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+
+interface ContainerProps {
+  width?: number
+  height?: number
+}
+
+interface DragHandleProps {
+  selected?: boolean
+}
+
+type StyleProps = ContainerProps & DragHandleProps
+
+const useStyles = makeStyles(({ palette }: Theme) => ({
+  container: ({ width, height }: StyleProps) => ({
+    position: 'relative',
+    width: width,
+    height: height,
+  }),
+  dragHandle: ({ selected }: StyleProps) => ({
+    position: 'absolute',
+    width: 26,
+    height: 26,
+    left: -13,
+    top: -13,
+    borderRadius: 13,
+    textAlign: 'center',
+    cursor: 'pointer',
+    backgroundColor:
+      (selected && palette.primary.main) ||
+      palette.secondary.main,
+    color:
+      (selected &&
+        palette.getContrastText(palette.primary.main)) ||
+      palette.getContrastText(palette.secondary.main),
+  }),
+}))
 
 import Draggable, {
   DraggableData,
@@ -15,30 +56,29 @@ import {
 } from '../../../lib/geom'
 import { ComboRangeInput } from '../../form/combo-range-input'
 
-const Container = styled.div<{
-  width?: number
-  height?: number
-}>`
-  position: relative;
-  width: ${props => props.width || 200}px;
-  height: ${props => props.height || 200}px;
-`
+const Container: SFC<ContainerProps> = ({
+  width = 200,
+  height = 200,
+  ...props
+}) => {
+  const classes = useStyles({ width, height })
+  return <div className={classes.container} {...props} />
+}
 
-const DragHandle = styled.div<{ selected?: boolean }>`
-  position: absolute;
-  font-size: ${props => props.theme.text}
-  color: ${props =>
-    (props.selected && props.theme.global.colors.black) ||
-    props.theme.global.colors.white};
-  background-color: ${props =>
-    (props.selected && props.theme.global.colors.focus) ||
-    props.theme.global.colors.brand};
-  width: 20px;
-  height: 20px;
-  top: -10px;
-  border-radius: 10px;
-  left: -10px;
-`
+const DragHandle: SFC<DragHandleProps> = ({
+  selected,
+  ...props
+}) => {
+  const classes = useStyles({ selected })
+  return (
+    <Typography
+      {...props}
+      component="span"
+      variant="button"
+      className={classes.dragHandle}
+    />
+  )
+}
 
 function useDragHandler(
   polygon: Polygon,
@@ -119,7 +159,7 @@ export const ShapeControl: SFC<{}> = () => {
   })
 
   return (
-    <Box direction="column">
+    <Box display="flex" flexDirection="column">
       <Container>
         <Canvas>
           <PolygonRenderer polygon={currentPolygon} />
@@ -136,7 +176,7 @@ export const VertexForm: SFC<{
 }> = ({ polygon, vertexIndex }) => {
   const [[x, y], radius, abs] = polygon[vertexIndex]
   return (
-    <Box direction="column">
+    <Box flexDirection="column">
       <ComboRangeInput
         label="X"
         min={0}
@@ -158,7 +198,7 @@ export const VertexForm: SFC<{
         step={1}
         value={radius}
       />
-      <CheckBox checked={abs} label="Absolute radius" />
+      <Checkbox checked={abs} />
     </Box>
   )
 }

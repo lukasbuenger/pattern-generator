@@ -1,5 +1,5 @@
 import { SFC, useCallback } from 'react'
-import { Box } from 'grommet'
+import { Box } from '@material-ui/core'
 import { ComboRangeInput } from '../form/combo-range-input'
 
 export interface GridControlProps {
@@ -26,35 +26,26 @@ export const GridControl: SFC<GridControlProps> = ({
   maxSpacing,
 }) => {
   const widthChangeHandler = useCallback(
-    event => {
-      return (
-        onChange &&
-        onChange(event.target.value, height, spacing)
-      )
+    value => {
+      return onChange && onChange(value, height, spacing)
     },
     [onChange, height, spacing],
   )
   const heightChangeHandler = useCallback(
-    event => {
-      return (
-        onChange &&
-        onChange(width, event.target.value, spacing)
-      )
+    value => {
+      return onChange && onChange(width, value, spacing)
     },
     [onChange, width, spacing],
   )
   const spacingChangeHandler = useCallback(
-    event => {
-      return (
-        onChange &&
-        onChange(width, height, event.target.value)
-      )
+    value => {
+      return onChange && onChange(width, height, value)
     },
     [onChange, width, height],
   )
 
   return (
-    <Box direction="column">
+    <Box flexDirection="column">
       <ComboRangeInput
         label="Width"
         min={1}

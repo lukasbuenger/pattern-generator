@@ -1,11 +1,42 @@
-import {
-  SFC,
-  useState,
-  HTMLProps,
-  useCallback,
-} from 'react'
-import styled, { withTheme } from 'styled-components'
-import { Box } from 'grommet'
+import { SFC, useState, useCallback } from 'react'
+import { Theme, Box, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+
+interface ContainerProps {
+  width?: number
+  height?: number
+}
+
+interface DragHandleProps {
+  selected?: boolean
+}
+
+type StyleProps = ContainerProps & DragHandleProps
+
+const useStyles = makeStyles(({ palette }: Theme) => ({
+  container: ({ width, height }: StyleProps) => ({
+    position: 'relative',
+    width: width,
+    height: height,
+  }),
+  dragHandle: ({ selected }: StyleProps) => ({
+    position: 'absolute',
+    width: 26,
+    height: 26,
+    left: -13,
+    top: -13,
+    borderRadius: 13,
+    textAlign: 'center',
+    cursor: 'pointer',
+    backgroundColor:
+      (selected && palette.primary.main) ||
+      palette.secondary.main,
+    color:
+      (selected &&
+        palette.getContrastText(palette.primary.main)) ||
+      palette.getContrastText(palette.secondary.main),
+  }),
+}))
 
 import Draggable, {
   DraggableData,
@@ -16,30 +47,32 @@ import { Canvas, PolygonRenderer } from '../../renderer'
 import {
   Polygon,
   updateVertexPosition,
+  vertexNames,
 } from '../../../lib/geom'
 
-const Container = styled<
-  SFC<
-    { width?: number; height?: number } & HTMLProps<
-      HTMLDivElement
-    >
-  >
-  // eslint-disable-next-line
->(({ width, height, ...props }) => <div {...props} />)`
-  position: relative;
-  width: ${props => props.width || 200}px;
-  height: ${props => props.height || 200}px;
-`
+const Container: SFC<ContainerProps> = ({
+  width = 200,
+  height = 200,
+  ...props
+}) => {
+  const classes = useStyles({ width, height })
+  return <div className={classes.container} {...props} />
+}
 
-const DragHandle = withTheme(styled.div`
-  position: absolute;
-  color: white;
-  background-color: ${props => props.theme.colors.main};
-  width: 10px;
-  height: 10px;
-  top: 0;
-  left: 0;
-`)
+const DragHandle: SFC<DragHandleProps> = ({
+  selected,
+  ...props
+}) => {
+  const classes = useStyles({ selected })
+  return (
+    <Typography
+      {...props}
+      component="span"
+      variant="button"
+      className={classes.dragHandle}
+    />
+  )
+}
 
 function useDragHandler(
   polygon: Polygon,
@@ -94,7 +127,9 @@ const DragButton: SFC<{
       onDrag={handleDrag}
       onStop={handleDragStop}
     >
-      <DragHandle />
+      <DragHandle selected>
+        {vertexNames[vertexIndex]}
+      </DragHandle>
     </Draggable>
   )
 }
@@ -118,7 +153,7 @@ export const ShapeControl: SFC<{}> = () => {
   })
 
   return (
-    <Box direction="column">
+    <Box display="flex" flexDirection="column">
       <Container>
         <Canvas>
           <PolygonRenderer polygon={currentPolygon} />

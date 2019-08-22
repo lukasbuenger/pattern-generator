@@ -1,5 +1,3 @@
-import { Accordion, AccordionPanel } from 'grommet'
-
 import {
   Layout,
   Header,
@@ -16,19 +14,13 @@ export default () => {
     <Layout>
       <Header>Hellow App!</Header>
       <Sidebar>
-        <Accordion multiple={true}>
-          <AccordionPanel label="Grid">
-            <GridControl
-              onChange={onGridChange}
-              width={grid.width}
-              height={grid.height}
-              spacing={grid.spacing}
-            />
-          </AccordionPanel>
-          <AccordionPanel label="Shape">
-            <ShapeControl />
-          </AccordionPanel>
-        </Accordion>
+        <GridControl
+          onChange={onGridChange}
+          width={grid.width}
+          height={grid.height}
+          spacing={grid.spacing}
+        />
+        <ShapeControl />
       </Sidebar>
     </Layout>
   )

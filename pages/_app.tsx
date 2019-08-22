@@ -1,7 +1,7 @@
 import NextApp, { Container } from 'next/app'
+import { ThemeProvider } from '@material-ui/styles'
 
-import { Grommet } from 'grommet'
-import { grommet } from 'grommet/themes'
+import { theme } from '../lib/theme'
 import { AppProvider } from '../components/state/app'
 
 class App extends NextApp {
@@ -10,11 +10,11 @@ class App extends NextApp {
 
     return (
       <Container>
-        <Grommet theme={grommet}>
+        <ThemeProvider theme={theme}>
           <AppProvider>
             <Component {...pageProps} />
           </AppProvider>
-        </Grommet>
+        </ThemeProvider>
       </Container>
     )
   }

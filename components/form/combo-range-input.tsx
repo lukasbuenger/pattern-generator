@@ -1,30 +1,62 @@
 import {
   Box,
-  RangeInput,
-  TextInput,
-  RangeInputProps,
-  Text,
-} from 'grommet'
-import { SFC } from 'react'
+  InputBase,
+  Typography,
+  Slider,
+} from '@material-ui/core'
+import { SFC, useCallback } from 'react'
 
-export interface ComboRangeInputProps
-  extends RangeInputProps {
+export interface ComboRangeInputProps {
   label?: string
+  min?: number
+  max?: number
+  step?: number
+  onChange?: (value: number) => void
+  value?: number
 }
 
 export const ComboRangeInput: SFC<ComboRangeInputProps> = ({
   label,
+  onChange,
   ...props
 }) => {
+  const handleSliderChange = useCallback(
+    (_, value) => {
+      onChange && onChange(value)
+    },
+    [onChange],
+  )
+
+  const handleTextFieldChange = useCallback(
+    event => {
+      onChange && onChange(Number(event.target.value))
+    },
+    [onChange],
+  )
+
   return (
-    <Box direction="column">
-      {label && <Text as="label">{label}</Text>}
-      <Box direction="row" gap="xsmall" align="center">
-        <Box flex="grow">
-          <RangeInput {...props} />
+    <Box flexDirection="column">
+      {label && (
+        <Typography variant="caption">{label}</Typography>
+      )}
+      <Box
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+      >
+        <Box flexGrow={1} mr={1}>
+          <Slider
+            {...props}
+            onChange={handleSliderChange}
+          />
         </Box>
-        <Box flex={false} width="80px">
-          <TextInput type="number" {...props} />
+        <Box flexGrow={0} flexBasis="45px">
+          <InputBase
+            type="number"
+            margin="dense"
+            onChange={handleTextFieldChange}
+            {...props}
+          />
         </Box>
       </Box>
     </Box>

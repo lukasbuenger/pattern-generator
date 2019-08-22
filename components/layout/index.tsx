@@ -1,44 +1,44 @@
 import { SFC } from 'react'
-import { Box, Grid } from 'grommet'
+import { Theme } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    display: 'grid',
+    width: '100vw',
+    height: '100vh',
+    gridTemplateAreas: `"header header"
+                       "sidebar  main"`,
+    gridTemplateRows: `${theme.mixins.toolbar.minHeight}px 1fr`,
+    gridTemplateColumns: '250px 1fr',
+  },
+  header: {
+    gridArea: 'header',
+  },
+  sidebar: {
+    gridArea: 'sidebar',
+  },
+  main: {
+    gridArea: 'main',
+  },
+}))
 
 export const Layout: SFC<{}> = ({ children }) => {
-  return (
-    <Grid
-      fill
-      rows={['auto', 'auto']}
-      columns={['medium', 'auto']}
-      gap="small"
-      areas={[
-        { name: 'header', start: [0, 0], end: [1, 0] },
-        { name: 'sidebar', start: [0, 1], end: [0, 1] },
-        { name: 'canvas', start: [1, 1], end: [1, 1] },
-      ]}
-    >
-      {children}
-    </Grid>
-  )
+  const classes = useStyles()
+  return <div className={classes.container}>{children}</div>
 }
 
 export const Header: SFC<{}> = ({ children }) => {
-  return (
-    <Box gridArea="header" tag="header">
-      {children}
-    </Box>
-  )
+  const classes = useStyles()
+  return <div className={classes.header}>{children}</div>
 }
 
 export const Sidebar: SFC<{}> = ({ children }) => {
-  return (
-    <Box gridArea="sidebar" tag="div">
-      {children}
-    </Box>
-  )
+  const classes = useStyles()
+  return <div className={classes.sidebar}>{children}</div>
 }
 
-export const Canvas: SFC<{}> = ({ children }) => {
-  return (
-    <Box gridArea="canvas" tag="div">
-      {children}
-    </Box>
-  )
+export const Main: SFC<{}> = ({ children }) => {
+  const classes = useStyles()
+  return <div className={classes.main}>{children}</div>
 }

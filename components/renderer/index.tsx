@@ -14,6 +14,37 @@ export const PolygonRenderer: SFC<PolygonRendererProps> = ({
   return <path d={polyAsSVGPath(polygon)} {...props} />
 }
 
+export interface CanvasProps
+  extends SVGProps<SVGSVGElement> {
+  viewboxWidth?: number
+  viewboxHeight?: number
+}
+
+export const Canvas: SFC<CanvasProps> = ({
+  children,
+  width,
+  height,
+  viewboxWidth,
+  viewboxHeight,
+  ...props
+}) => {
+  const w = width || 200
+  const vW = viewboxWidth || w
+
+  const h = height || 200
+  const vH = viewboxHeight || h
+  return (
+    <svg
+      {...props}
+      width={w}
+      height={h}
+      viewBox={`0 0 ${vW} ${vH}`}
+    >
+      {children}
+    </svg>
+  )
+}
+
 export interface RendererProps {
   polygons: Polygon[]
   width?: number
@@ -40,12 +71,12 @@ export const Renderer: SFC<RendererProps> = ({
     },
   )
   return (
-    <svg
+    <Canvas
       width={width}
       height={height}
       viewBox={`0 0 ${viewboxWidth} ${viewboxHeight}`}
     >
       {renderedPolys}
-    </svg>
+    </Canvas>
   )
 }

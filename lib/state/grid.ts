@@ -1,5 +1,3 @@
-import { Action } from './base'
-
 export interface GridState {
   width: number
   height: number
@@ -13,12 +11,20 @@ export enum GridActionTypes {
   UPDATE_GRID = 'updateGrid',
 }
 
-export interface GridAction extends Action {
+const GridActionNames = Object.values(GridActionTypes)
+
+export interface GridAction {
+  type: GridActionTypes
   payload: {
     width: number
     height: number
     spacing: number
   }
+}
+export const GridAction = {
+  isGridAction(a: Record<string, any>): a is GridAction {
+    return GridActionNames.includes(a.type)
+  },
 }
 
 export const initialGridState: GridState = {

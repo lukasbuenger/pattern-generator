@@ -1,4 +1,3 @@
-import { Action } from './base'
 import { Polygon, polygon, vertex } from '../geom'
 
 export interface ShapeState {
@@ -6,17 +5,25 @@ export interface ShapeState {
 }
 
 export enum ShapeActionTypes {
-  SET_POLYGON = 'SET_POLYGON',
-  UPDATE_VERTEX = 'UPDATE_VERTEX',
+  SET_POLYGON = 'setPolygon',
+  UPDATE_VERTEX = 'updateVertex',
 }
 
-export interface SetPolygonAction extends Action {
+const ShapeActionNames = Object.values(ShapeActionTypes)
+
+export interface SetPolygonAction {
+  type: ShapeActionTypes
   payload: {
     polygon: Polygon
   }
 }
 
 export type ShapeAction = SetPolygonAction
+export const ShapeAction = {
+  isShapeAction(a: Record<string, any>): a is ShapeAction {
+    return ShapeActionNames.includes(a.type)
+  },
+}
 
 const initialPolygon = polygon(
   vertex(0, 200),

@@ -1,3 +1,4 @@
+import { useEffect, FC } from 'react'
 import {
   Layout,
   Header,
@@ -8,8 +9,13 @@ import { GridControl } from '../components/control/grid'
 import { ShapeControl } from '../components/control/shape'
 import { useGrid } from '../components/state/grid'
 
-export default () => {
+const Page: FC = () => {
   const [grid, onGridChange] = useGrid()
+
+  useEffect(() => {
+    document.getElementById('jss-server-side')?.remove()
+  }, [])
+
   return (
     <Layout>
       <Header>Hellow App!</Header>
@@ -25,3 +31,5 @@ export default () => {
     </Layout>
   )
 }
+
+export default Page

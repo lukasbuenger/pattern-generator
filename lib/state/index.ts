@@ -1,9 +1,7 @@
 import { Dispatch, Reducer } from 'react'
-import { Action } from './base'
 
 import {
   GridState,
-  GridActionTypes,
   GridAction,
   gridReducer,
   initialGridState,
@@ -11,27 +9,22 @@ import {
 
 import {
   ShapeState,
-  ShapeActionTypes,
   ShapeAction,
   shapeReducer,
   initialShapeState,
 } from './shape'
 
-export type ActionTypes = GridActionTypes & ShapeActionTypes
+type Action = GridAction | ShapeAction
 
 export type AppReducer = Reducer<AppState, Action>
 
 export function reducer(state: AppState, action: Action) {
-  if (
-    Object.values(GridActionTypes).includes(action.type)
-  ) {
+  if (GridAction.isGridAction(action)) {
     return {
       ...state,
       grid: gridReducer(state.grid, action as GridAction),
     }
-  } else if (
-    Object.values(ShapeActionTypes).includes(action.type)
-  ) {
+  } else if (ShapeAction.isShapeAction(action)) {
     return {
       ...state,
       shape: shapeReducer(

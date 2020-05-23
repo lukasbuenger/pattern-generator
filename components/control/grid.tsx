@@ -26,19 +26,19 @@ export const GridControl: FC<GridControlProps> = ({
   maxSpacing,
 }) => {
   const widthChangeHandler = useCallback(
-    value => {
+    (value) => {
       return onChange && onChange(value, height, spacing)
     },
     [onChange, height, spacing],
   )
   const heightChangeHandler = useCallback(
-    value => {
+    (value) => {
       return onChange && onChange(width, value, spacing)
     },
     [onChange, width, spacing],
   )
   const spacingChangeHandler = useCallback(
-    value => {
+    (value) => {
       return onChange && onChange(width, height, value)
     },
     [onChange, width, height],

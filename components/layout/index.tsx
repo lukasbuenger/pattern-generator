@@ -23,22 +23,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const Layout: FC<{}> = ({ children }) => {
+export const Layout: FC = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.container}>{children}</div>
 }
 
-export const Header: FC<{}> = ({ children }) => {
+export const Header: FC = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.header}>{children}</div>
 }
 
-export const Sidebar: FC<{}> = ({ children }) => {
+export const Sidebar: FC = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.sidebar}>{children}</div>
 }
 
-export const Main: FC<{}> = ({ children }) => {
+export const Main: FC = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.main}>{children}</div>
 }

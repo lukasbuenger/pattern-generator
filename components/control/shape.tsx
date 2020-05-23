@@ -47,14 +47,14 @@ import Draggable, {
   DraggableData,
   DraggableEvent,
 } from 'react-draggable'
-import { useShape } from '../../state/shape'
-import { Canvas, PolygonRenderer } from '../../renderer'
+import { useShape } from '../state/shape'
+import { Canvas, PolygonRenderer } from '../renderer'
 import {
   Polygon,
   updateVertexPosition,
   vertexNames,
-} from '../../../lib/geom'
-import { ComboRangeInput } from '../../form/combo-range-input'
+} from '../../lib/geom'
+import { ComboRangeInput } from '../form/combo-range-input'
 
 const Container: FC<ContainerProps> = ({
   width = 200,
@@ -83,7 +83,7 @@ const DragHandle: FC<DragHandleProps> = ({
 function useDragHandler(
   polygon: Polygon,
   vertexIndex: number,
-  handler: Function,
+  handler: (p: Polygon) => void,
 ) {
   return useCallback(
     (e: DraggableEvent, data: DraggableData) => {
@@ -100,7 +100,7 @@ function useDragHandler(
 
 function useDragStopHandler(
   polygon: Polygon,
-  handler: Function,
+  handler: (p: Polygon) => void,
 ) {
   return useCallback(
     (e: DraggableEvent) => {
@@ -112,11 +112,18 @@ function useDragStopHandler(
   )
 }
 
+const bounds = {
+  top: 0,
+  left: 0,
+  right: 200,
+  bottom: 200,
+}
+
 const DragButton: FC<{
   polygon: Polygon
   vertexIndex: number
-  onDrag: Function
-  onStop: Function
+  onDrag: (p: Polygon) => void
+  onStop: (p: Polygon) => void
 }> = ({ polygon, vertexIndex, onDrag, onStop }) => {
   const [[x, y]] = polygon[vertexIndex]
   const handleDrag = useDragHandler(
@@ -128,7 +135,7 @@ const DragButton: FC<{
   return (
     <Draggable
       defaultPosition={{ x, y }}
-      bounds="parent"
+      bounds={bounds}
       grid={[1, 1]}
       onDrag={handleDrag}
       onStop={handleDragStop}
@@ -140,7 +147,7 @@ const DragButton: FC<{
   )
 }
 
-export const ShapeControl: FC<{}> = () => {
+export const ShapeControl: FC = () => {
   const [polygon, setPolygon] = useShape()
   const [currentPolygon, updateCurrentPolygon] = useState(
     polygon,

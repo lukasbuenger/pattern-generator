@@ -28,7 +28,7 @@ export const ComboRangeInput: FC<ComboRangeInputProps> = ({
   )
 
   const handleTextFieldChange = useCallback(
-    event => {
+    (event) => {
       onChange && onChange(Number(event.target.value))
     },
     [onChange],

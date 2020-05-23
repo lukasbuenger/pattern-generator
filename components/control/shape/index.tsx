@@ -1,4 +1,4 @@
-import { SFC, useState, useCallback } from 'react'
+import { FC, useState, useCallback } from 'react'
 import {
   Theme,
   Box,
@@ -56,7 +56,7 @@ import {
 } from '../../../lib/geom'
 import { ComboRangeInput } from '../../form/combo-range-input'
 
-const Container: SFC<ContainerProps> = ({
+const Container: FC<ContainerProps> = ({
   width = 200,
   height = 200,
   ...props
@@ -65,7 +65,7 @@ const Container: SFC<ContainerProps> = ({
   return <div className={classes.container} {...props} />
 }
 
-const DragHandle: SFC<DragHandleProps> = ({
+const DragHandle: FC<DragHandleProps> = ({
   selected,
   ...props
 }) => {
@@ -112,7 +112,7 @@ function useDragStopHandler(
   )
 }
 
-const DragButton: SFC<{
+const DragButton: FC<{
   polygon: Polygon
   vertexIndex: number
   onDrag: Function
@@ -140,7 +140,7 @@ const DragButton: SFC<{
   )
 }
 
-export const ShapeControl: SFC<{}> = () => {
+export const ShapeControl: FC<{}> = () => {
   const [polygon, setPolygon] = useShape()
   const [currentPolygon, updateCurrentPolygon] = useState(
     polygon,
@@ -170,7 +170,7 @@ export const ShapeControl: SFC<{}> = () => {
   )
 }
 
-export const VertexForm: SFC<{
+export const VertexForm: FC<{
   polygon: Polygon
   vertexIndex: number
 }> = ({ polygon, vertexIndex }) => {

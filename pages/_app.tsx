@@ -1,4 +1,4 @@
-import NextApp, { Container } from 'next/app'
+import NextApp from 'next/app'
 import { ThemeProvider } from '@material-ui/styles'
 
 import { theme } from '../lib/theme'
@@ -9,13 +9,11 @@ class App extends NextApp {
     const { Component, pageProps } = this.props
 
     return (
-      <Container>
-        <ThemeProvider theme={theme}>
-          <AppProvider>
-            <Component {...pageProps} />
-          </AppProvider>
-        </ThemeProvider>
-      </Container>
+      <ThemeProvider theme={theme}>
+        <AppProvider>
+          <Component {...pageProps} />
+        </AppProvider>
+      </ThemeProvider>
     )
   }
 }

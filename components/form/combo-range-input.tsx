@@ -4,7 +4,7 @@ import {
   Typography,
   Slider,
 } from '@material-ui/core'
-import { SFC, useCallback } from 'react'
+import { FC, useCallback } from 'react'
 
 export interface ComboRangeInputProps {
   label?: string
@@ -15,7 +15,7 @@ export interface ComboRangeInputProps {
   value?: number
 }
 
-export const ComboRangeInput: SFC<ComboRangeInputProps> = ({
+export const ComboRangeInput: FC<ComboRangeInputProps> = ({
   label,
   onChange,
   ...props

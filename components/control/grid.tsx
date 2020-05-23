@@ -1,4 +1,4 @@
-import { SFC, useCallback } from 'react'
+import { FC, useCallback } from 'react'
 import { Box } from '@material-ui/core'
 import { ComboRangeInput } from '../form/combo-range-input'
 
@@ -16,7 +16,7 @@ export interface GridControlProps {
   ) => void
 }
 
-export const GridControl: SFC<GridControlProps> = ({
+export const GridControl: FC<GridControlProps> = ({
   width = 1,
   height = 1,
   spacing = 0,

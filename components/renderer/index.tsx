@@ -1,4 +1,4 @@
-import { SFC, SVGProps } from 'react'
+import { FC, SVGProps } from 'react'
 
 import { Polygon, polyAsSVGPath } from '../../lib/geom'
 
@@ -7,7 +7,7 @@ export interface PolygonRendererProps
   polygon: Polygon
 }
 
-export const PolygonRenderer: SFC<PolygonRendererProps> = ({
+export const PolygonRenderer: FC<PolygonRendererProps> = ({
   polygon,
   ...props
 }) => {
@@ -20,7 +20,7 @@ export interface CanvasProps
   viewboxHeight?: number
 }
 
-export const Canvas: SFC<CanvasProps> = ({
+export const Canvas: FC<CanvasProps> = ({
   children,
   width,
   height,
@@ -53,7 +53,7 @@ export interface RendererProps {
   viewboxHeight?: number
 }
 
-export const Renderer: SFC<RendererProps> = ({
+export const Renderer: FC<RendererProps> = ({
   polygons,
   width = 800,
   height = 800,

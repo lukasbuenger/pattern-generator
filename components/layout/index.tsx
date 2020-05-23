@@ -1,4 +1,4 @@
-import { SFC } from 'react'
+import { FC } from 'react'
 import { Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
@@ -23,22 +23,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-export const Layout: SFC<{}> = ({ children }) => {
+export const Layout: FC<{}> = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.container}>{children}</div>
 }
 
-export const Header: SFC<{}> = ({ children }) => {
+export const Header: FC<{}> = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.header}>{children}</div>
 }
 
-export const Sidebar: SFC<{}> = ({ children }) => {
+export const Sidebar: FC<{}> = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.sidebar}>{children}</div>
 }
 
-export const Main: SFC<{}> = ({ children }) => {
+export const Main: FC<{}> = ({ children }) => {
   const classes = useStyles()
   return <div className={classes.main}>{children}</div>
 }

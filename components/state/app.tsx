@@ -1,5 +1,5 @@
 import {
-  SFC,
+  FC,
   createContext,
   useContext,
   useReducer,
@@ -21,7 +21,7 @@ export interface AppProviderProps {
   initialState?: AppState
 }
 
-export const AppProvider: SFC<AppProviderProps> = ({
+export const AppProvider: FC<AppProviderProps> = ({
   children,
   initialState = initialAppState,
 }) => {

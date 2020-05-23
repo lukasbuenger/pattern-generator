@@ -1,43 +1,6 @@
-import { SFC, useState, useCallback } from 'react'
+import { FC, useState, useCallback } from 'react'
 import { Theme, Box, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-
-interface ContainerProps {
-  width?: number
-  height?: number
-}
-
-interface DragHandleProps {
-  selected?: boolean
-}
-
-type StyleProps = ContainerProps & DragHandleProps
-
-const useStyles = makeStyles(({ palette }: Theme) => ({
-  container: ({ width, height }: StyleProps) => ({
-    position: 'relative',
-    width: width,
-    height: height,
-  }),
-  dragHandle: ({ selected }: StyleProps) => ({
-    position: 'absolute',
-    width: 26,
-    height: 26,
-    left: -13,
-    top: -13,
-    borderRadius: 13,
-    textAlign: 'center',
-    cursor: 'pointer',
-    backgroundColor:
-      (selected && palette.primary.main) ||
-      palette.secondary.main,
-    color:
-      (selected &&
-        palette.getContrastText(palette.primary.main)) ||
-      palette.getContrastText(palette.secondary.main),
-  }),
-}))
-
 import Draggable, {
   DraggableData,
   DraggableEvent,
@@ -50,7 +13,46 @@ import {
   vertexNames,
 } from '../../../lib/geom'
 
-const Container: SFC<ContainerProps> = ({
+interface ContainerProps {
+  width?: number
+  height?: number
+}
+
+interface DragHandleProps {
+  selected?: boolean
+}
+
+type StyleProps = ContainerProps & DragHandleProps
+
+const useStyles = makeStyles(
+  ({ palette }: Theme) => ({
+    container: ({ width, height }: StyleProps) => ({
+      position: 'relative',
+      width: width,
+      height: height,
+    }),
+    dragHandle: ({ selected }: StyleProps) => ({
+      position: 'absolute',
+      width: 26,
+      height: 26,
+      left: -13,
+      top: -13,
+      borderRadius: 13,
+      textAlign: 'center',
+      cursor: 'pointer',
+      backgroundColor:
+        (selected && palette.error.main) ||
+        palette.error.main,
+      color:
+        (selected &&
+          palette.getContrastText(palette.error.main)) ||
+        palette.getContrastText(palette.error.main),
+    }),
+  }),
+  { name: 'shape-editor' },
+)
+
+const Container: FC<ContainerProps> = ({
   width = 200,
   height = 200,
   ...props
@@ -59,7 +61,7 @@ const Container: SFC<ContainerProps> = ({
   return <div className={classes.container} {...props} />
 }
 
-const DragHandle: SFC<DragHandleProps> = ({
+const DragHandle: FC<DragHandleProps> = ({
   selected,
   ...props
 }) => {
@@ -106,12 +108,21 @@ function useDragStopHandler(
   )
 }
 
-const DragButton: SFC<{
+const DragButton: FC<{
+  selected: boolean
   polygon: Polygon
   vertexIndex: number
   onDrag: Function
   onStop: Function
-}> = ({ polygon, vertexIndex, onDrag, onStop }) => {
+  onSelect: (index: number) => void
+}> = ({
+  selected,
+  polygon,
+  vertexIndex,
+  onDrag,
+  onStop,
+  onSelect,
+}) => {
   const [[x, y]] = polygon[vertexIndex]
   const handleDrag = useDragHandler(
     polygon,
@@ -126,27 +137,31 @@ const DragButton: SFC<{
       grid={[1, 1]}
       onDrag={handleDrag}
       onStop={handleDragStop}
+      onMouseDown={() => onSelect(vertexIndex)}
     >
-      <DragHandle selected>
+      <DragHandle selected={selected}>
         {vertexNames[vertexIndex]}
       </DragHandle>
     </Draggable>
   )
 }
 
-export const ShapeControl: SFC<{}> = () => {
+export const ShapeControl: FC<{}> = () => {
   const [polygon, setPolygon] = useShape()
   const [currentPolygon, updateCurrentPolygon] = useState(
     polygon,
   )
+  const [selectedVertex, selectVertex] = useState(0)
 
   const dragHandles = currentPolygon.map((_, index) => {
     return (
       <DragButton
+        selected={selectedVertex === index}
         polygon={currentPolygon}
         vertexIndex={index}
         onDrag={updateCurrentPolygon}
         onStop={setPolygon}
+        onSelect={selectVertex}
         key={`btn-${index}`}
       />
     )

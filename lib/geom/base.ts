@@ -1,69 +1,76 @@
 export type Vector = [number, number]
-export function vector(x = 0, y = 0): Vector {
-  return [x, y]
-}
 
-export function subtract(u: Vector, v: Vector): Vector {
-  return [u[0] - v[0], u[1] - v[1]]
-}
+export const Vector = {
+  create(x = 0, y = 0): Vector {
+    return [x, y]
+  },
+  subtract(u: Vector, v: Vector): Vector {
+    return [u[0] - v[0], u[1] - v[1]]
+  },
+  multiply(u: Vector, factor: number): Vector {
+    return [u[0] * factor, u[1] * factor]
+  },
+  getLength(u: Vector): number {
+    return Math.sqrt(Math.pow(u[0], 2) + Math.pow(u[1], 2))
+  },
+  resize(u: Vector, l: number): Vector {
+    return Vector.multiply(u, l / Vector.getLength(u))
+  },
+  translateX(u: Vector, additive: number): Vector {
+    return [u[0] + additive, u[1]]
+  },
+  translateY(u: Vector, additive: number): Vector {
+    return [u[0], u[1] + additive]
+  },
+  getAbsoluteRadius(
+    a: Vector,
+    b: Vector,
+    c: Vector,
+    radius: number,
+  ): number {
+    const edgeA = 1
+    const u = Vector.subtract(b, a)
+    const v = Vector.subtract(b, c)
+    const u2 = Vector.subtract(b, Vector.resize(u, edgeA))
+    const v2 = Vector.subtract(b, Vector.resize(v, edgeA))
 
-export function multiply(
-  u: Vector,
-  factor: number,
-): Vector {
-  return [u[0] * factor, u[1] * factor]
-}
+    const edgeC = Vector.getLength(Vector.subtract(u2, v2))
 
-export function getLength(v: Vector): number {
-  return Math.sqrt(Math.pow(v[0], 2) + Math.pow(v[1], 2))
-}
-
-export function resize(l: number, u: Vector): Vector {
-  return multiply(u, l / getLength(u))
-}
-
-export function translateX(
-  additive: number,
-  u: Vector,
-): Vector {
-  return [u[0] + additive, u[1]]
-}
-
-export function translateY(
-  additive: number,
-  u: Vector,
-): Vector {
-  return [u[0], u[1] + additive]
-}
-
-export function getAbsoluteRadius(
-  a: Vector,
-  b: Vector,
-  c: Vector,
-  radius: number,
-): number {
-  const edgeA = 1
-  const u = subtract(b, a)
-  const v = subtract(b, c)
-  const u2 = subtract(b, resize(edgeA, u))
-  const v2 = subtract(b, resize(edgeA, v))
-
-  const edgeC = getLength(subtract(u2, v2))
-
-  const gamma = Math.acos(
-    1 - Math.pow(edgeC, 2) / Math.pow(2 * edgeA, 2),
-  )
-  return radius / 2 / Math.sin(gamma / 2)
+    const gamma = Math.acos(
+      1 - Math.pow(edgeC, 2) / Math.pow(2 * edgeA, 2),
+    )
+    return radius / 2 / Math.sin(gamma / 2)
+  },
 }
 
 export type Vertex = [Vector, number, boolean]
-export function vertex(
-  x: number,
-  y: number,
-  radius = 0,
-  isAbsolute = true,
-): Vertex {
-  return [vector(x, y), radius, isAbsolute]
+export const Vertex = {
+  create(
+    x: number,
+    y: number,
+    radius = 0,
+    isAbsolute = true,
+  ): Vertex {
+    return [Vector.create(x, y), radius, isAbsolute]
+  },
+  translateX(
+    [vector, a, b]: Vertex,
+    additive: number,
+  ): Vertex {
+    return [Vector.translateX(vector, additive), a, b]
+  },
+  translateY(
+    [vector, a, b]: Vertex,
+    additive: number,
+  ): Vertex {
+    return [Vector.translateY(vector, additive), a, b]
+  },
+  translateRadius(
+    [vector, a, b]: Vertex,
+    additive: number,
+  ): Vertex {
+    return [vector, a + additive, b]
+  },
 }
 
 export interface Polygon extends Array<Vertex> {
@@ -72,61 +79,70 @@ export interface Polygon extends Array<Vertex> {
   2: Vertex
   [k: number]: Vertex
 }
-export function polygon(
-  a: Vertex,
-  b: Vertex,
-  c: Vertex,
-  ...vertices: Vertex[]
-): Polygon {
-  return [a, b, c, ...vertices]
-}
 
-export function replaceVertexInPoly(
-  poly: Polygon,
-  index: number,
-  a: Vertex,
-): Polygon {
-  const nextPoly = [...poly]
-  nextPoly.splice(index, 1, a)
-  return nextPoly as Polygon
-}
-
-export function updateVertexPosition(
-  poly: Polygon,
-  index: number,
-  x: number,
-  y: number,
-): Polygon {
-  const [, radius, abs] = poly[index]
-  return replaceVertexInPoly(poly, index, [
-    [x, y],
-    radius,
-    abs,
-  ])
-}
-
-export function updateVertexRadius(
-  poly: Polygon,
-  index: number,
-  radius: number,
-): Polygon {
-  const [pos, , abs] = poly[index]
-  return replaceVertexInPoly(poly, index, [
-    pos,
-    radius,
-    abs,
-  ])
-}
-
-export function updateVertexRadiusType(
-  poly: Polygon,
-  index: number,
-  absolute: boolean,
-): Polygon {
-  const [pos, radius] = poly[index]
-  return replaceVertexInPoly(poly, index, [
-    pos,
-    radius,
-    absolute,
-  ])
+export const Polygon = {
+  create(
+    a: Vertex,
+    b: Vertex,
+    c: Vertex,
+    ...vertices: Vertex[]
+  ): Polygon {
+    return [a, b, c, ...vertices]
+  },
+  replaceVertex(
+    poly: Polygon,
+    index: number,
+    a: Vertex,
+  ): Polygon {
+    const nextPoly = [...poly]
+    nextPoly.splice(index, 1, a)
+    return nextPoly as Polygon
+  },
+  updateVertexPosition(
+    poly: Polygon,
+    index: number,
+    x: number,
+    y: number,
+  ): Polygon {
+    const [, radius, abs] = poly[index]
+    return Polygon.replaceVertex(poly, index, [
+      [x, y],
+      radius,
+      abs,
+    ])
+  },
+  updateVertexRadius(
+    poly: Polygon,
+    index: number,
+    radius: number,
+  ): Polygon {
+    const [pos, , abs] = poly[index]
+    return Polygon.replaceVertex(poly, index, [
+      pos,
+      radius,
+      abs,
+    ])
+  },
+  updateVertexRadiusType(
+    poly: Polygon,
+    index: number,
+    absolute: boolean,
+  ): Polygon {
+    const [pos, radius] = poly[index]
+    return Polygon.replaceVertex(poly, index, [
+      pos,
+      radius,
+      absolute,
+    ])
+  },
+  translateX(poly: Polygon, additive: number): Polygon {
+    return poly.map((vertex) =>
+      Vertex.translateX(vertex, additive),
+    ) as Polygon
+  },
+  translateY(poly: Polygon, additive: number): Polygon {
+    return poly.map((vertex) =>
+      Vertex.translateY(vertex, additive),
+    ) as Polygon
+  },
 }

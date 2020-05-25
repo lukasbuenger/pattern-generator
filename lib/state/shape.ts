@@ -1,4 +1,4 @@
-import { Polygon, polygon, vertex } from '../geom'
+import { Polygon, Vertex } from '../geom'
 
 export interface ShapeState {
   polygon: Polygon
@@ -25,10 +25,10 @@ export const ShapeAction = {
   },
 }
 
-const initialPolygon = polygon(
-  vertex(0, 200),
-  vertex(100, 0),
-  vertex(200, 200),
+const initialPolygon = Polygon.create(
+  Vertex.create(0, 200),
+  Vertex.create(100, 0),
+  Vertex.create(200, 200),
 )
 
 export const initialShapeState: ShapeState = {

@@ -7,6 +7,15 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
+import Draggable, {
+  DraggableData,
+  DraggableEvent,
+} from 'react-draggable'
+import { useShape } from '../state/shape'
+import { SVGViewport, PolygonRenderer } from '../renderer'
+import { Polygon, vertexNames } from '../../lib/geom'
+import { ComboRangeInput } from '../form/combo-range-input'
+
 interface ContainerProps {
   width?: number
   height?: number
@@ -43,19 +52,6 @@ const useStyles = makeStyles(({ palette }: Theme) => ({
   }),
 }))
 
-import Draggable, {
-  DraggableData,
-  DraggableEvent,
-} from 'react-draggable'
-import { useShape } from '../state/shape'
-import { Canvas, PolygonRenderer } from '../renderer'
-import {
-  Polygon,
-  updateVertexPosition,
-  vertexNames,
-} from '../../lib/geom'
-import { ComboRangeInput } from '../form/combo-range-input'
-
 const Container: FC<ContainerProps> = ({
   width = 200,
   height = 200,
@@ -91,7 +87,12 @@ function useDragHandler(
       e.stopPropagation()
       const { x, y } = data
       handler(
-        updateVertexPosition(polygon, vertexIndex, x, y),
+        Polygon.updateVertexPosition(
+          polygon,
+          vertexIndex,
+          x,
+          y,
+        ),
       )
     },
     [polygon, vertexIndex, handler],
@@ -168,9 +169,9 @@ export const ShapeControl: FC = () => {
   return (
     <Box display="flex" flexDirection="column">
       <Container>
-        <Canvas>
+        <SVGViewport>
           <PolygonRenderer polygon={currentPolygon} />
-        </Canvas>
+        </SVGViewport>
         {dragHandles}
       </Container>
     </Box>

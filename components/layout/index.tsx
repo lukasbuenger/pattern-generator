@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridTemplateAreas: `"header header"
                        "sidebar  main"`,
     gridTemplateRows: `${theme.mixins.toolbar.minHeight}px 1fr`,
-    gridTemplateColumns: '250px 1fr',
+    gridTemplateColumns: '400px 1fr',
   },
   header: {
     gridArea: 'header',

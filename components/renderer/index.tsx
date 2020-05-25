@@ -14,13 +14,13 @@ export const PolygonRenderer: FC<PolygonRendererProps> = ({
   return <path d={polyAsSVGPath(polygon)} {...props} />
 }
 
-export interface CanvasProps
+export interface SVGViewportProps
   extends SVGProps<SVGSVGElement> {
   viewboxWidth?: number
   viewboxHeight?: number
 }
 
-export const Canvas: FC<CanvasProps> = ({
+export const SVGViewport: FC<SVGViewportProps> = ({
   children,
   width,
   height,
@@ -71,12 +71,12 @@ export const Renderer: FC<RendererProps> = ({
     },
   )
   return (
-    <Canvas
+    <SVGViewport
       width={width}
       height={height}
       viewBox={`0 0 ${viewboxWidth} ${viewboxHeight}`}
     >
       {renderedPolys}
-    </Canvas>
+    </SVGViewport>
   )
 }

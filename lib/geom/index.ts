@@ -1,13 +1,4 @@
-export type { Polygon } from './base'
-export {
-  vertex,
-  vector,
-  polygon,
-  replaceVertexInPoly,
-  updateVertexPosition,
-  updateVertexRadius,
-  updateVertexRadiusType,
-} from './base'
+export { Vertex, Vector, Polygon } from './base'
 export { polyAsSVGPath } from './svg'
 
 export const vertexNames = [

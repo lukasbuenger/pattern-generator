@@ -5,18 +5,20 @@ import {
   Sidebar,
 } from '../components/layout'
 
-import { GridControl } from '../components/control/grid'
 import { ShapeControl } from '../components/control/shape'
-import { useGrid } from '../components/state/grid'
 import { Transform } from '../lib/transform/transform'
 import { TransformListControl } from '../components/control/transforms/transform-list-control'
+import { Sequence } from '../lib/sequences'
+import { SequenceControl } from '../components/control/sequence-control'
 
 const Page: FC = () => {
-  const [grid, onGridChange] = useGrid()
-
   const [transforms, updateTransforms] = useState<
     Transform[]
   >([])
+
+  const [sequence, updateSequence] = useState<Sequence>(
+    Sequence.createDefault(),
+  )
 
   useEffect(() => {
     document.getElementById('jss-server-side')?.remove()
@@ -27,11 +29,9 @@ const Page: FC = () => {
       <Header>Hellow App!</Header>
       <Sidebar>
         <ShapeControl />
-        <GridControl
-          onChange={onGridChange}
-          width={grid.width}
-          height={grid.height}
-          spacing={grid.spacing}
+        <SequenceControl
+          sequence={sequence}
+          onChange={updateSequence}
         />
         <TransformListControl
           transforms={transforms}

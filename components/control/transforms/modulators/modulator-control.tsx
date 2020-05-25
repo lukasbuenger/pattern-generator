@@ -15,7 +15,6 @@ import {
   ModulatorTypes,
   ModuloModulator,
   MultiplyModulator,
-  IntegerModulator,
 } from '../../../../lib/transform/modulators'
 import { ModuloModulatorControl } from './modulo-modulator-control'
 import { IntegerModulatorControl } from './integer-modulator-control'
@@ -32,14 +31,9 @@ export const ModulatorControl: FC<ModulatorControlProps> = ({
 }) => {
   const handleTargetChange = useCallback(
     (e: ChangeEvent<any>) => {
-      const target: ModulatorTypes = e.target.value
-      const nextOperation =
-        target === ModulatorTypes.MODULO
-          ? ModuloModulator.assert(modulator)
-          : target === ModulatorTypes.MULTIPLY
-          ? MultiplyModulator.assert(modulator)
-          : IntegerModulator.assert(modulator)
-      onChange && onChange(nextOperation)
+      const type: ModulatorTypes = e.target.value
+      onChange &&
+        onChange(Modulator.assert(type, modulator))
     },
     [onChange, modulator],
   )

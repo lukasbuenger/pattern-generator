@@ -156,4 +156,13 @@ export const Operation = {
       PolygonOperationTypes.TRANSLATE_X,
     )
   },
+  assert(
+    target: OperationTargets,
+    o: Record<string, any>,
+  ): Operation {
+    if (target === OperationTargets.POLY) {
+      return PolygonOperation.assert(o)
+    }
+    return VertexOperation.assert(o)
+  },
 }

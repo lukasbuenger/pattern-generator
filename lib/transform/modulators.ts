@@ -115,4 +115,16 @@ export const Modulator = {
   createDefault(): Modulator {
     return MultiplyModulator.create(1)
   },
+  assert(
+    type: ModulatorTypes,
+    m: Record<string, any>,
+  ): Modulator {
+    if (type === ModulatorTypes.MODULO) {
+      return ModuloModulator.assert(m)
+    } else if (type === ModulatorTypes.MULTIPLY) {
+      return MultiplyModulator.assert(m)
+    } else {
+      return IntegerModulator.assert(m)
+    }
+  },
 }

@@ -1,4 +1,9 @@
-import { FC, useCallback, ChangeEvent } from 'react'
+import {
+  FC,
+  useCallback,
+  ChangeEvent,
+  ReactElement,
+} from 'react'
 import {
   FormControl,
   Select,
@@ -9,14 +14,13 @@ import {
   Operation,
   OperationTargets,
   PolygonOperation,
-  VertexOperation,
 } from '../../../../lib/transform/operations'
 import { VertexOperationControl } from './vertex-operation-control'
 import { PolyOperationControl } from './poly-operation-control'
 
 export interface OperationControlProps {
   operation: Operation
-  onChange?: (operation: Operation) => void
+  onChange: (operation: Operation) => void
 }
 
 export const OperationControl: FC<OperationControlProps> = ({
@@ -26,28 +30,27 @@ export const OperationControl: FC<OperationControlProps> = ({
   const handleTargetChange = useCallback(
     (e: ChangeEvent<any>) => {
       const target: OperationTargets = e.target.value
-      const nextOperation =
-        target === OperationTargets.POLY
-          ? PolygonOperation.assert(operation)
-          : VertexOperation.assert(operation)
-      onChange && onChange(nextOperation)
+      onChange(Operation.assert(target, operation))
     },
     [onChange, operation],
   )
 
-  const innerControl = PolygonOperation.isPolygonOperation(
-    operation,
-  ) ? (
-    <PolyOperationControl
-      operation={operation}
-      onChange={onChange}
-    />
-  ) : (
-    <VertexOperationControl
-      operation={operation}
-      onChange={onChange}
-    />
-  )
+  let innerControl: ReactElement
+  if (PolygonOperation.isPolygonOperation(operation)) {
+    innerControl = (
+      <PolyOperationControl
+        operation={operation}
+        onChange={onChange}
+      />
+    )
+  } else {
+    innerControl = (
+      <VertexOperationControl
+        operation={operation}
+        onChange={onChange}
+      />
+    )
+  }
 
   return (
     <>

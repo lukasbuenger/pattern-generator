@@ -103,13 +103,13 @@ export type MoveParams = [Vector]
 export type LineParams = [Vector]
 export type CurveParams = [Vector, Vector, Vector, Vector]
 
-export type PathCommands =
+export type PathCommand =
   | MoveCommand
   | LineCommand
   | CurveCommand
   | CloseCommand
 
-export const PathCommands = {
+export const PathCommand = {
   fromVertex(a: Vertex, b: Vertex, c: Vertex) {
     const [ctrl, radius, isAbsolute] = b
     if (radius === 0) {
@@ -136,7 +136,7 @@ export const PathCommands = {
   },
   fromPoly(poly: Polygon) {
     const [head, ...tail] = poly
-    const firstVertexCommand = PathCommands.fromVertex(
+    const firstVertexCommand = PathCommand.fromVertex(
       previousVertex(poly, 0),
       head,
       nextVertex(poly, 0),
@@ -144,19 +144,19 @@ export const PathCommands = {
     const moveToCommand = MoveCommand.create(
       firstVertexCommand.params.slice(-1)[0],
     )
-    const commands: PathCommands[] = [moveToCommand]
+    const commands: PathCommand[] = [moveToCommand]
 
     for (let i = 0; i < tail.length; i += 1) {
       const prev = previousVertex(poly, i + 1)
       const next = nextVertex(poly, i + 1)
       commands.push(
-        PathCommands.fromVertex(prev, tail[i], next),
+        PathCommand.fromVertex(prev, tail[i], next),
       )
     }
     commands.push(firstVertexCommand, CloseCommand.create())
     return commands
   },
-  toSVGString(commands: PathCommands[]): string {
+  toSVGString(commands: PathCommand[]): string {
     return commands
       .map((command) => {
         if (MoveCommand.isMoveCommand(command)) {
@@ -174,10 +174,13 @@ export const PathCommands = {
       })
       .join(' ')
   },
+  polyToSVG(poly: Polygon): string {
+    return PathCommand.toSVGString(
+      PathCommand.fromPoly(poly),
+    )
+  },
 }
 
 export function polyAsSVGPath(poly: Polygon): string {
-  return PathCommands.toSVGString(
-    PathCommands.fromPoly(poly),
-  )
+  return PathCommand.toSVGString(PathCommand.fromPoly(poly))
 }

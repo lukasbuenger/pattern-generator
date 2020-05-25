@@ -4,7 +4,7 @@ import {
   Typography,
   Slider,
 } from '@material-ui/core'
-import { FC, useCallback } from 'react'
+import { FC, useCallback, useState, useEffect } from 'react'
 
 export interface ComboRangeInputProps {
   label?: string
@@ -12,26 +12,41 @@ export interface ComboRangeInputProps {
   max?: number
   step?: number
   onChange?: (value: number) => void
-  value?: number
+  value: number
 }
 
 export const ComboRangeInput: FC<ComboRangeInputProps> = ({
   label,
   onChange,
+  value,
   ...props
 }) => {
-  const handleSliderChange = useCallback(
-    (_, value) => {
-      onChange && onChange(value)
+  const [localValue, updateLocalValue] = useState(value)
+  useEffect(() => {
+    updateLocalValue(value)
+  }, [value])
+
+  const handleSliderChangeCommitted = useCallback(
+    (_, v) => {
+      onChange && onChange(v)
     },
     [onChange],
   )
 
+  const handleSliderChange = useCallback(
+    (_, v) => {
+      updateLocalValue(v)
+    },
+    [updateLocalValue],
+  )
+
   const handleTextFieldChange = useCallback(
     (event) => {
-      onChange && onChange(Number(event.target.value))
+      const nextValue = Number(event.target.value)
+      updateLocalValue(nextValue)
+      onChange && onChange(nextValue)
     },
-    [onChange],
+    [updateLocalValue, onChange],
   )
 
   return (
@@ -47,15 +62,18 @@ export const ComboRangeInput: FC<ComboRangeInputProps> = ({
         <Box flexGrow={1} mr={1}>
           <Slider
             {...props}
+            value={localValue}
             onChange={handleSliderChange}
+            onChangeCommitted={handleSliderChangeCommitted}
           />
         </Box>
         <Box flexGrow={0} flexBasis="45px">
           <InputBase
+            {...props}
             type="number"
             margin="dense"
             onChange={handleTextFieldChange}
-            {...props}
+            value={localValue}
           />
         </Box>
       </Box>

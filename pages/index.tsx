@@ -5,11 +5,12 @@ import {
   Sidebar,
 } from '../components/layout'
 
-import { ShapeControl } from '../components/control/shape'
+import { ShapeControl } from '../components/control/shape-control'
 import { Transform } from '../lib/transform/transform'
 import { TransformListControl } from '../components/control/transforms/transform-list-control'
 import { Sequence } from '../lib/sequences'
 import { SequenceControl } from '../components/control/sequence-control'
+import { Shape } from '../lib/shapes'
 
 const Page: FC = () => {
   const [transforms, updateTransforms] = useState<
@@ -18,6 +19,9 @@ const Page: FC = () => {
 
   const [sequence, updateSequence] = useState<Sequence>(
     Sequence.createDefault(),
+  )
+  const [shape, updateShape] = useState<Shape>(
+    Shape.createDefault(),
   )
 
   useEffect(() => {
@@ -28,7 +32,10 @@ const Page: FC = () => {
     <Layout>
       <Header>Hellow App!</Header>
       <Sidebar>
-        <ShapeControl />
+        <ShapeControl
+          shape={shape}
+          onChange={updateShape}
+        />
         <SequenceControl
           sequence={sequence}
           onChange={updateSequence}

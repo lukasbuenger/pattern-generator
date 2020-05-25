@@ -11,7 +11,6 @@ import Draggable, {
   DraggableData,
   DraggableEvent,
 } from 'react-draggable'
-import { useShape } from '../state/shape'
 import { SVGViewport, PolygonRenderer } from '../renderer'
 import { Polygon, vertexNames } from '../../lib/geom'
 import { ComboRangeInput } from '../form/combo-range-input'
@@ -148,19 +147,24 @@ const DragButton: FC<{
   )
 }
 
-export const ShapeControl: FC = () => {
-  const [polygon, setPolygon] = useShape()
-  const [currentPolygon, updateCurrentPolygon] = useState(
-    polygon,
-  )
+export interface ShapeControlProps {
+  shape: Polygon
+  onChange: (shape: Polygon) => void
+}
 
-  const dragHandles = currentPolygon.map((_, index) => {
+export const ShapeControl: FC<ShapeControlProps> = ({
+  shape,
+  onChange,
+}) => {
+  const [localShape, updateLocalShape] = useState(shape)
+
+  const dragHandles = localShape.map((_, index) => {
     return (
       <DragButton
-        polygon={currentPolygon}
+        polygon={localShape}
         vertexIndex={index}
-        onDrag={updateCurrentPolygon}
-        onStop={setPolygon}
+        onDrag={updateLocalShape}
+        onStop={onChange}
         key={`btn-${index}`}
       />
     )
@@ -170,7 +174,7 @@ export const ShapeControl: FC = () => {
     <Box display="flex" flexDirection="column">
       <Container>
         <SVGViewport>
-          <PolygonRenderer polygon={currentPolygon} />
+          <PolygonRenderer polygon={localShape} />
         </SVGViewport>
         {dragHandles}
       </Container>

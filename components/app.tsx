@@ -30,14 +30,18 @@ export const AppProvider: FC<AppProviderProps> = ({
   )
 }
 
-export function useApp() {
+export const useApp = () => {
   return useContext(AppContext)
 }
 
-export function useShape() {
-  return useContext(AppContext).shape
+export const useShape = () => {
+  return useApp().shape
 }
 
-export function useSequence() {
-  return useContext(AppContext).sequence
+export const useSequence = () => {
+  return useApp().sequence
+}
+
+export const useTransforms = () => {
+  return useApp().transforms
 }

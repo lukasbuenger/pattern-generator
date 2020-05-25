@@ -1,23 +1,5 @@
 import { Vector, Vertex, Polygon } from './base'
 
-export function previousVertex(
-  vertices: Vertex[],
-  index: number,
-): Vertex {
-  return index > 0
-    ? vertices[index - 1]
-    : vertices[vertices.length - 1]
-}
-
-export function nextVertex(
-  vertices: Vertex[],
-  index: number,
-): Vertex {
-  return index < vertices.length - 1
-    ? vertices[index + 1]
-    : vertices[0]
-}
-
 export enum PathCommandTypes {
   MOVE = 'move',
   LINE = 'line',
@@ -137,9 +119,9 @@ export const PathCommand = {
   fromPoly(poly: Polygon) {
     const [head, ...tail] = poly
     const firstVertexCommand = PathCommand.fromVertex(
-      previousVertex(poly, 0),
+      Polygon.getPreviousVertex(poly, 0),
       head,
-      nextVertex(poly, 0),
+      Polygon.getNextVertex(poly, 0),
     )
     const moveToCommand = MoveCommand.create(
       firstVertexCommand.params.slice(-1)[0],
@@ -147,8 +129,8 @@ export const PathCommand = {
     const commands: PathCommand[] = [moveToCommand]
 
     for (let i = 0; i < tail.length; i += 1) {
-      const prev = previousVertex(poly, i + 1)
-      const next = nextVertex(poly, i + 1)
+      const prev = Polygon.getPreviousVertex(poly, i + 1)
+      const next = Polygon.getNextVertex(poly, i + 1)
       commands.push(
         PathCommand.fromVertex(prev, tail[i], next),
       )
@@ -174,13 +156,13 @@ export const PathCommand = {
       })
       .join(' ')
   },
-  polyToSVG(poly: Polygon): string {
+}
+
+export type SVGPath = string
+export const SVGPath = {
+  fromPolygon(poly: Polygon): SVGPath {
     return PathCommand.toSVGString(
       PathCommand.fromPoly(poly),
     )
   },
-}
-
-export function polyAsSVGPath(poly: Polygon): string {
-  return PathCommand.toSVGString(PathCommand.fromPoly(poly))
 }

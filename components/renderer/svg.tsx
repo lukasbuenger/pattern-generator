@@ -1,6 +1,6 @@
 import { FC, SVGProps } from 'react'
 
-import { Polygon, polyAsSVGPath } from '../../lib/geom'
+import { Polygon, SVGPath } from '../../lib/geom'
 
 export interface PolygonRendererProps
   extends SVGProps<SVGPathElement> {
@@ -11,7 +11,9 @@ export const PolygonRenderer: FC<PolygonRendererProps> = ({
   polygon,
   ...props
 }) => {
-  return <path d={polyAsSVGPath(polygon)} {...props} />
+  return (
+    <path d={SVGPath.fromPolygon(polygon)} {...props} />
+  )
 }
 
 export interface SVGViewportProps

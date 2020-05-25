@@ -1,5 +1,5 @@
 export { Vertex, Vector, Polygon } from './base'
-export { polyAsSVGPath } from './svg'
+export { SVGPath } from './svg'
 
 export const vertexNames = [
   'A',

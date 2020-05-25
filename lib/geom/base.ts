@@ -145,4 +145,14 @@ export const Polygon = {
       Vertex.translateY(vertex, additive),
     ) as Polygon
   },
+  getPreviousVertex(poly: Polygon, index: number): Vertex {
+    return index > 0
+      ? poly[index - 1]
+      : poly[poly.length - 1]
+  },
+  getNextVertex(poly: Polygon, index: number): Vertex {
+    return index < poly.length - 1
+      ? poly[index + 1]
+      : poly[0]
+  },
 }

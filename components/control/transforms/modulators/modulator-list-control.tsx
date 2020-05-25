@@ -17,7 +17,7 @@ import {
 import { Modulator } from '../../../../lib/transform/modulators'
 
 import { ModulatorControl } from './modulator-control'
-import { SimpleList } from '../../../../lib/utils/simple-list2'
+import { SimpleList } from '../../../../lib/utils/simple-list'
 
 const useStyles = makeStyles(
   ({ palette, spacing }: Theme) => ({

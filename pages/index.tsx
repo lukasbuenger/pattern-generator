@@ -1,16 +1,17 @@
 import { useEffect, FC, useState } from 'react'
+import { Transform } from '../lib/transform/transform'
+import { Sequence } from '../lib/sequences'
+import { Shape } from '../lib/shapes'
+
 import {
   Layout,
   Header,
   Sidebar,
 } from '../components/layout'
-
-import { ShapeControl } from '../components/control/shape-control'
-import { Transform } from '../lib/transform/transform'
 import { TransformListControl } from '../components/control/transforms/transform-list-control'
-import { Sequence } from '../lib/sequences'
 import { SequenceControl } from '../components/control/sequence-control'
-import { Shape } from '../lib/shapes'
+import { ShapeControl } from '../components/control/shape-control'
+import { AppProvider } from '../components/app'
 
 const Page: FC = () => {
   useEffect(() => {
@@ -28,24 +29,32 @@ const Page: FC = () => {
     Shape.createDefault(),
   )
 
+  const appState = {
+    sequence,
+    shape,
+    transforms,
+  }
+
   return (
-    <Layout>
-      <Header>Hellow App!</Header>
-      <Sidebar>
-        <ShapeControl
-          shape={shape}
-          onChange={updateShape}
-        />
-        <SequenceControl
-          sequence={sequence}
-          onChange={updateSequence}
-        />
-        <TransformListControl
-          transforms={transforms}
-          onChange={updateTransforms}
-        />
-      </Sidebar>
-    </Layout>
+    <AppProvider state={appState}>
+      <Layout>
+        <Header>Hellow App!</Header>
+        <Sidebar>
+          <ShapeControl
+            shape={shape}
+            onChange={updateShape}
+          />
+          <SequenceControl
+            sequence={sequence}
+            onChange={updateSequence}
+          />
+          <TransformListControl
+            transforms={transforms}
+            onChange={updateTransforms}
+          />
+        </Sidebar>
+      </Layout>
+    </AppProvider>
   )
 }
 

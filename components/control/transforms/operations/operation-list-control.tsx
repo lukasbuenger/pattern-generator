@@ -17,7 +17,7 @@ import {
 import { Operation } from '../../../../lib/transform/operations'
 
 import { OperationControl } from './operation-control'
-import { SimpleList } from '../../../../lib/utils/simple-list2'
+import { SimpleList } from '../../../../lib/utils/simple-list'
 
 const useStyles = makeStyles(
   ({ palette, spacing }: Theme) => ({

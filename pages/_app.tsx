@@ -3,7 +3,6 @@ import { ThemeProvider } from '@material-ui/styles'
 import { CssBaseline } from '@material-ui/core'
 
 import { theme } from '../lib/theme'
-import { AppProvider } from '../components/state/app'
 
 class App extends NextApp {
   public render() {
@@ -12,9 +11,7 @@ class App extends NextApp {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppProvider>
-          <Component {...pageProps} />
-        </AppProvider>
+        <Component {...pageProps} />
       </ThemeProvider>
     )
   }

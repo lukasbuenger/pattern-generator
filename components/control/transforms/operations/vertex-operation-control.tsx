@@ -10,7 +10,7 @@ import {
   VertexOperationTypes,
 } from '../../../../lib/transform/operations'
 import { vertexNames } from '../../../../lib/geom'
-import { useShape } from '../../../state/shape'
+import { useShape } from '../../../app'
 
 export interface VertexOperationControlProps {
   operation: VertexOperation
@@ -21,7 +21,7 @@ export const VertexOperationControl: FC<VertexOperationControlProps> = ({
   operation,
   onChange,
 }) => {
-  const [shape] = useShape()
+  const shape = useShape()
   const vertexMenuItems = []
   for (let i = 0; i < shape.length; i += 1) {
     vertexMenuItems.push(

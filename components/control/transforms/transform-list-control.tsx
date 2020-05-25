@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Box, Typography, Button } from '@material-ui/core'
 
 import { Transform } from '../../../lib/transform/transform'
-import { SimpleList } from '../../../lib/utils/simple-list2'
+import { SimpleList } from '../../../lib/utils/simple-list'
 
 import { TransformControl } from './transform-control'
 import { Add } from '@material-ui/icons'

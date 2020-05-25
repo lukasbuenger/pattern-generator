@@ -153,6 +153,7 @@ export const PathCommand = {
         if (CloseCommand.isCloseCommand(command)) {
           return CloseCommand.toSVGString()
         }
+        return ''
       })
       .join(' ')
   },

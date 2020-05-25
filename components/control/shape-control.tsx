@@ -18,10 +18,6 @@ import {
 import { Polygon, vertexNames } from '../../lib/geom'
 import { ComboRangeInput } from '../form/combo-range-input'
 
-interface DragHandleProps {
-  selected?: boolean
-}
-
 const useStyles = makeStyles(
   ({ palette, spacing }: Theme) => ({
     container: {
@@ -54,9 +50,8 @@ const useStyles = makeStyles(
   }),
 )
 
-const Container: FC = ({ ...props }) => {
-  const classes = useStyles()
-  return <div className={classes.container} {...props} />
+interface DragHandleProps {
+  selected?: boolean
 }
 
 const DragHandle: FC<DragHandleProps> = ({
@@ -118,12 +113,23 @@ const bounds = {
   bottom: 200,
 }
 
-const DragButton: FC<{
+interface DragButtonProps {
   polygon: Polygon
   vertexIndex: number
+  selected?: boolean
+  onSelect: (index: number) => void
   onDrag: (p: Polygon) => void
   onStop: (p: Polygon) => void
-}> = ({ polygon, vertexIndex, onDrag, onStop }) => {
+}
+
+const DragButton: FC<DragButtonProps> = ({
+  polygon,
+  vertexIndex,
+  selected,
+  onDrag,
+  onStop,
+  onSelect,
+}) => {
   const [[x, y]] = polygon[vertexIndex]
   const handleDrag = useDragHandler(
     polygon,
@@ -131,15 +137,23 @@ const DragButton: FC<{
     onDrag,
   )
   const handleDragStop = useDragStopHandler(polygon, onStop)
+  const handleMouseDown = useCallback(
+    (e) => {
+      e.stopPropagation()
+      onSelect(vertexIndex)
+    },
+    [onSelect, vertexIndex],
+  )
   return (
     <Draggable
       defaultPosition={{ x, y }}
       bounds={bounds}
       grid={[1, 1]}
+      onMouseDown={handleMouseDown}
       onDrag={handleDrag}
       onStop={handleDragStop}
     >
-      <DragHandle selected>
+      <DragHandle selected={selected}>
         {vertexNames[vertexIndex]}
       </DragHandle>
     </Draggable>
@@ -155,13 +169,19 @@ export const ShapeControl: FC<ShapeControlProps> = ({
   shape,
   onChange,
 }) => {
+  const styles = useStyles()
   const [localShape, updateLocalShape] = useState(shape)
+  const [selectedVertex, setSelectedVertex] = useState<
+    number | null
+  >(null)
 
   const dragHandles = localShape.map((_, index) => {
     return (
       <DragButton
         polygon={localShape}
         vertexIndex={index}
+        selected={selectedVertex === index}
+        onSelect={setSelectedVertex}
         onDrag={updateLocalShape}
         onStop={onChange}
         key={`btn-${index}`}
@@ -172,41 +192,62 @@ export const ShapeControl: FC<ShapeControlProps> = ({
   return (
     <Box display="flex" flexDirection="column">
       <Typography variant="h5">Shape</Typography>
-      <Container>
+      <div
+        className={styles.container}
+        onMouseDown={() => setSelectedVertex(null)}
+      >
         <SVGViewport>
           <PolygonRenderer polygon={localShape} />
         </SVGViewport>
         {dragHandles}
-      </Container>
+      </div>
     </Box>
   )
 }
 
-export const VertexForm: FC<{
+interface VertexFormProps {
   polygon: Polygon
   vertexIndex: number
-}> = ({ polygon, vertexIndex }) => {
+  onChange: (polygon: Polygon) => void
+}
+
+export const VertexForm: FC<VertexFormProps> = ({
+  polygon,
+  vertexIndex,
+  onChange,
+}) => {
   const [[x, y], radius, abs] = polygon[vertexIndex]
+
   return (
     <Box flexDirection="column">
       <ComboRangeInput
         label="X"
         min={0}
-        max={x}
+        max={200}
         step={1}
         value={x}
+        onChange={(v) => {
+          onChange(
+            Polygon.updateVertexPosition(
+              polygon,
+              vertexIndex,
+              v,
+              y,
+            ),
+          )
+        }}
       />
       <ComboRangeInput
         label="Y"
         min={0}
         max={y}
-        step={1}
+        step={200}
         value={y}
       />
       <ComboRangeInput
         label="Radius"
         min={0}
-        max={200}
+        max={100}
         step={1}
         value={radius}
       />

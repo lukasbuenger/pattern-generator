@@ -52,7 +52,9 @@ export const ComboRangeInput: FC<ComboRangeInputProps> = ({
   return (
     <Box flexDirection="column">
       {label && (
-        <Typography variant="caption">{label}</Typography>
+        <Typography variant="caption" color="textSecondary">
+          {label}
+        </Typography>
       )}
       <Box
         display="flex"

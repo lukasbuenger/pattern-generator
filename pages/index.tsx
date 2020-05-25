@@ -13,6 +13,10 @@ import { SequenceControl } from '../components/control/sequence-control'
 import { Shape } from '../lib/shapes'
 
 const Page: FC = () => {
+  useEffect(() => {
+    document.getElementById('jss-server-side')?.remove()
+  }, [])
+
   const [transforms, updateTransforms] = useState<
     Transform[]
   >([])
@@ -23,10 +27,6 @@ const Page: FC = () => {
   const [shape, updateShape] = useState<Shape>(
     Shape.createDefault(),
   )
-
-  useEffect(() => {
-    document.getElementById('jss-server-side')?.remove()
-  }, [])
 
   return (
     <Layout>

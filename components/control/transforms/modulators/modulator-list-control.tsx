@@ -106,7 +106,7 @@ export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
   )
 
   return (
-    <Box>
+    <div>
       <Box
         display="flex"
         justifyContent="space-between"
@@ -135,6 +135,6 @@ export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
       >
         {displays}
       </Paper>
-    </Box>
+    </div>
   )
 }

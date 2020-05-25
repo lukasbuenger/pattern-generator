@@ -106,7 +106,7 @@ export const OperationListControl: FC<OperationListControlProps> = ({
   )
 
   return (
-    <Box>
+    <div>
       <Box
         display="flex"
         justifyContent="space-between"
@@ -135,6 +135,6 @@ export const OperationListControl: FC<OperationListControlProps> = ({
       >
         {displays}
       </Paper>
-    </Box>
+    </div>
   )
 }

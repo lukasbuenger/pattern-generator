@@ -38,7 +38,7 @@ export const TransformListControl: FC<TransformListControlProps> = ({
   ))
 
   return (
-    <Box>
+    <div>
       <Box
         display="flex"
         alignItems="center"
@@ -63,6 +63,6 @@ export const TransformListControl: FC<TransformListControlProps> = ({
         </Button>
       </Box>
       <div>{displays}</div>
-    </Box>
+    </div>
   )
 }

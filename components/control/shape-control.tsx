@@ -15,48 +15,44 @@ import { SVGViewport, PolygonRenderer } from '../renderer'
 import { Polygon, vertexNames } from '../../lib/geom'
 import { ComboRangeInput } from '../form/combo-range-input'
 
-interface ContainerProps {
-  width?: number
-  height?: number
-}
-
 interface DragHandleProps {
   selected?: boolean
 }
 
-type StyleProps = ContainerProps & DragHandleProps
-
-const useStyles = makeStyles(({ palette }: Theme) => ({
-  container: ({ width, height }: StyleProps) => ({
-    position: 'relative',
-    width: width,
-    height: height,
+const useStyles = makeStyles(
+  ({ palette, spacing }: Theme) => ({
+    container: {
+      position: 'relative',
+      width: 200,
+      height: 200,
+      marginTop: 13,
+      marginBottom: 13,
+      backgroundColor: palette.grey[200],
+      marginLeft: spacing(1) + 13,
+      marginright: spacing(1) + 13,
+    },
+    dragHandle: ({ selected }: DragHandleProps) => ({
+      position: 'absolute',
+      width: 26,
+      height: 26,
+      left: -13,
+      top: -13,
+      borderRadius: 13,
+      textAlign: 'center',
+      cursor: 'pointer',
+      backgroundColor:
+        (selected && palette.primary.main) ||
+        palette.secondary.main,
+      color:
+        (selected &&
+          palette.getContrastText(palette.primary.main)) ||
+        palette.getContrastText(palette.secondary.main),
+    }),
   }),
-  dragHandle: ({ selected }: StyleProps) => ({
-    position: 'absolute',
-    width: 26,
-    height: 26,
-    left: -13,
-    top: -13,
-    borderRadius: 13,
-    textAlign: 'center',
-    cursor: 'pointer',
-    backgroundColor:
-      (selected && palette.primary.main) ||
-      palette.secondary.main,
-    color:
-      (selected &&
-        palette.getContrastText(palette.primary.main)) ||
-      palette.getContrastText(palette.secondary.main),
-  }),
-}))
+)
 
-const Container: FC<ContainerProps> = ({
-  width = 200,
-  height = 200,
-  ...props
-}) => {
-  const classes = useStyles({ width, height })
+const Container: FC = ({ ...props }) => {
+  const classes = useStyles()
   return <div className={classes.container} {...props} />
 }
 
@@ -172,6 +168,7 @@ export const ShapeControl: FC<ShapeControlProps> = ({
 
   return (
     <Box display="flex" flexDirection="column">
+      <Typography variant="h5">Shape</Typography>
       <Container>
         <SVGViewport>
           <PolygonRenderer polygon={localShape} />

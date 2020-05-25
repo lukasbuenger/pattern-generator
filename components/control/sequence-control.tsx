@@ -4,6 +4,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Box,
 } from '@material-ui/core'
 
 import {
@@ -38,9 +39,9 @@ export const SequenceControl: FC<SequenceControlProps> = ({
   )
 
   return (
-    <>
+    <Box display="flex" flexDirection="row">
       <FormControl margin="dense">
-        <InputLabel>Target</InputLabel>
+        <InputLabel>Type</InputLabel>
         <Select
           margin="dense"
           value={sequence.sequence}
@@ -65,6 +66,6 @@ export const SequenceControl: FC<SequenceControlProps> = ({
         value={sequence.length}
         onChange={handleLengthChange}
       />
-    </>
+    </Box>
   )
 }

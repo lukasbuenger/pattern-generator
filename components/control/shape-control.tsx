@@ -11,7 +11,10 @@ import Draggable, {
   DraggableData,
   DraggableEvent,
 } from 'react-draggable'
-import { SVGViewport, PolygonRenderer } from '../renderer'
+import {
+  SVGViewport,
+  PolygonRenderer,
+} from '../renderer/svg'
 import { Polygon, vertexNames } from '../../lib/geom'
 import { ComboRangeInput } from '../form/combo-range-input'
 

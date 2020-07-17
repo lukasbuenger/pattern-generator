@@ -1,23 +1,13 @@
 import { FC, createContext, useContext } from 'react'
-import { Sequence } from '../lib/sequences'
-import { Shape } from '../lib/shapes'
-import { Transform } from '../lib/transform/transform'
-
-interface AppState {
-  sequence: Sequence
-  shape: Shape
-  transforms: Transform[]
-}
+import { AppState } from '../lib/app-state'
 
 export interface AppProviderProps {
   state: AppState
 }
 
-const AppContext = createContext<AppState>({
-  sequence: Sequence.createDefault(),
-  shape: Shape.createDefault(),
-  transforms: [],
-})
+const AppContext = createContext<AppState>(
+  AppState.create(),
+)
 
 export const AppProvider: FC<AppProviderProps> = ({
   children,

@@ -165,4 +165,14 @@ export const Operation = {
     }
     return VertexOperation.assert(o)
   },
+  apply(
+    operation: Operation,
+    poly: Polygon,
+    value: number,
+  ): Polygon {
+    if (VertexOperation.isVertexOperation(operation)) {
+      return VertexOperation.apply(operation, poly, value)
+    }
+    return PolygonOperation.apply(operation, poly, value)
+  },
 }

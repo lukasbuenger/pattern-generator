@@ -19,13 +19,13 @@ export const LinearSequence = {
   isLinearSequence(
     s: Record<string, any>,
   ): s is LinearSequence {
-    return s.secquence === SequenceTypes.LINEAR
+    return s.sequence === SequenceTypes.LINEAR
   },
   walk: function* linearSequenceGenerator(
     sequence: LinearSequence,
   ) {
     let i = 0
-    while (i < sequence.length - 1) {
+    while (i < sequence.length) {
       yield i
       i += 1
     }
@@ -48,7 +48,7 @@ export const FibonacciSequence = {
   isFibonacciSequence(
     s: Record<string, any>,
   ): s is FibonacciSequence {
-    return s.secquence === SequenceTypes.FIBONACCI
+    return s.sequence === SequenceTypes.FIBONACCI
   },
   walk: function* fibonacciSequenceGenerator(
     sequence: FibonacciSequence,
@@ -59,7 +59,7 @@ export const FibonacciSequence = {
     yield b
     let i = 2
     let next: number
-    while (i < sequence.length - 1) {
+    while (i < sequence.length) {
       next = a + b
       yield next
       a = b
@@ -85,14 +85,14 @@ export const ExponentialSequence = {
   isExponentialSequence(
     s: Record<string, any>,
   ): s is ExponentialSequence {
-    return s.secquence === SequenceTypes.EXPONENTIAL
+    return s.sequence === SequenceTypes.EXPONENTIAL
   },
   walk: function* exponentialSequenceGenerator(
     sequence: ExponentialSequence,
   ) {
     const i = 0
     let a = 0
-    while (i < sequence.length - 1) {
+    while (i < sequence.length) {
       yield a
       a = Math.pow(a, 2)
     }
@@ -108,5 +108,16 @@ export type Sequence =
 export const Sequence = {
   createDefault(): Sequence {
     return LinearSequence.create(12)
+  },
+  walk(sequence: Sequence) {
+    if (LinearSequence.isLinearSequence(sequence)) {
+      return LinearSequence.walk(sequence)
+    } else if (
+      ExponentialSequence.isExponentialSequence(sequence)
+    ) {
+      return ExponentialSequence.walk(sequence)
+    } else {
+      return FibonacciSequence.walk(sequence)
+    }
   },
 }

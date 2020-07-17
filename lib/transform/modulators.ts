@@ -127,4 +127,13 @@ export const Modulator = {
       return IntegerModulator.assert(m)
     }
   },
+  apply(m: Modulator, input: number): number {
+    if (ModuloModulator.isModuloModulator(m)) {
+      return ModuloModulator.apply(m, input)
+    } else if (IntegerModulator.isIntegerModulator(m)) {
+      return IntegerModulator.apply(m, input)
+    } else {
+      return MultiplyModulator.apply(m, input)
+    }
+  },
 }

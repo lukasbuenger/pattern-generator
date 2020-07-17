@@ -55,7 +55,7 @@ export interface RendererProps {
   viewboxHeight?: number
 }
 
-export const Renderer: FC<RendererProps> = ({
+export const SVGRenderer: FC<RendererProps> = ({
   polygons,
   width = 800,
   height = 800,

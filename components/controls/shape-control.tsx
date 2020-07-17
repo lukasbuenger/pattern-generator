@@ -9,7 +9,7 @@ import Draggable, {
 import {
   SVGViewport,
   PolygonRenderer,
-} from '../renderer/svg'
+} from '../renderers/svg-renderer'
 import {
   Polygon,
   Vertex,

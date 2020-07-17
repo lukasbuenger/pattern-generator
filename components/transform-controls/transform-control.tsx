@@ -8,9 +8,9 @@ import {
   IconButton,
 } from '@material-ui/core'
 
-import { Transform } from '../../../lib/transform/transform'
-import { ModulatorListControl } from './modulators/modulator-list-control'
-import { OperationListControl } from './operations/operation-list-control'
+import { Transform } from '../../interfaces/transform'
+import { ModulatorListControl } from '../modulator-controls/modulator-list-control'
+import { OperationListControl } from '../operation-controls/operation-list-control'
 import {
   ArrowUpward,
   ArrowDownward,

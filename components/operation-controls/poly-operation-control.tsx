@@ -8,7 +8,7 @@ import {
 import {
   PolygonOperation,
   PolygonOperationTypes,
-} from '../../../../lib/transform/operations'
+} from '../../interfaces/operation'
 
 export interface PolyOperationControlProps {
   operation: PolygonOperation

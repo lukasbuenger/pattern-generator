@@ -9,7 +9,7 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core'
-import { Vertex } from '../../../lib/geom'
+import { Vertex } from '../../interfaces/vertex'
 
 const BOUNDS = {
   top: 0,

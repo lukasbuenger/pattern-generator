@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import {
-  Typography,
   Box,
   IconButton,
   makeStyles,
   Theme,
+  Typography,
   Paper,
 } from '@material-ui/core'
 
@@ -14,10 +14,10 @@ import {
   ArrowDownward,
   Add,
 } from '@material-ui/icons'
-import { Modulator } from '../../../../lib/transform/modulators'
+import { Operation } from '../../interfaces/operation'
+import { SimpleList } from '../../interfaces/simple-list'
 
-import { ModulatorControl } from './modulator-control'
-import { SimpleList } from '../../../../lib/utils/simple-list'
+import { OperationControl } from './operation-control'
 
 const useStyles = makeStyles(
   ({ palette, spacing }: Theme) => ({
@@ -33,25 +33,25 @@ const useStyles = makeStyles(
   }),
 )
 
-interface ModulatorListConrolProps {
-  modulators: Modulator[]
-  onChange: (operations: Modulator[]) => void
+interface OperationListControlProps {
+  operations: Operation[]
+  onChange: (operations: Operation[]) => void
 }
 
-export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
-  modulators,
+export const OperationListControl: FC<OperationListControlProps> = ({
+  operations,
   onChange,
 }) => {
   const styles = useStyles()
-  const displays = !modulators.length ? (
+  const displays = !operations.length ? (
     <Typography
       className={styles.operationItem}
       color="textSecondary"
     >
-      No modulators
+      No operations
     </Typography>
   ) : (
-    modulators.map((item, index) => (
+    operations.map((item, index) => (
       <Box
         key={index}
         display="flex"
@@ -60,11 +60,11 @@ export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
         className={styles.operationItem}
       >
         <div>
-          <ModulatorControl
-            modulator={item}
+          <OperationControl
+            operation={item}
             onChange={(o) => {
               onChange(
-                SimpleList.updateItem(modulators, index, o),
+                SimpleList.updateItem(operations, index, o),
               )
             }}
           />
@@ -74,7 +74,7 @@ export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
             size="small"
             onClick={() => {
               onChange(
-                SimpleList.moveItemUp(modulators, index),
+                SimpleList.moveItemUp(operations, index),
               )
             }}
           >
@@ -84,7 +84,7 @@ export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
             size="small"
             onClick={() => {
               onChange(
-                SimpleList.moveItemDown(modulators, index),
+                SimpleList.moveItemDown(operations, index),
               )
             }}
           >
@@ -94,7 +94,7 @@ export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
             size="small"
             onClick={() => {
               onChange(
-                SimpleList.removeItem(modulators, index),
+                SimpleList.removeItem(operations, index),
               )
             }}
           >
@@ -113,15 +113,15 @@ export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
         alignItems="center"
       >
         <Typography variant="subtitle1" gutterBottom>
-          Modulators
+          Operations
         </Typography>
         <IconButton
           size="small"
           onClick={() => {
             onChange(
               SimpleList.addItem(
-                modulators,
-                Modulator.createDefault(),
+                operations,
+                Operation.createDefault(),
               ),
             )
           }}

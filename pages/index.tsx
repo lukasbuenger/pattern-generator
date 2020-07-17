@@ -1,7 +1,9 @@
 import { useEffect, FC, useState, useMemo } from 'react'
-import { Transform } from '../lib/transform/transform'
-import { Sequence } from '../lib/sequences'
-import { Shape } from '../lib/shapes'
+import { Transform } from '../interfaces/transform'
+import { Sequence } from '../interfaces/sequence'
+import { Shape } from '../interfaces/shape'
+import { Polygon } from '../interfaces/polygon'
+import { AppState } from '../interfaces/app-state'
 
 import {
   Layout,
@@ -9,13 +11,11 @@ import {
   Sidebar,
   Main,
 } from '../components/layout'
-import { TransformListControl } from '../components/controls/transforms/transform-list-control'
-import { SequenceControl } from '../components/controls/sequence-control'
-import { ShapeControl } from '../components/controls/shape-control'
-import { AppProvider } from '../components/app'
-import { AppState } from '../lib/app-state'
+import { TransformListControl } from '../components/transform-controls/transform-list-control'
+import { SequenceControl } from '../components/sequence-control'
+import { ShapeControl } from '../components/shape-controls/shape-control'
+import { AppProvider } from '../components/app-provider'
 import { SVGRenderer } from '../components/renderers/svg-renderer'
-import { Polygon } from '../lib/geom'
 
 const Page: FC = () => {
   useEffect(() => {

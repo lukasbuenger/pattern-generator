@@ -1,4 +1,6 @@
-import { Vector, Vertex, Polygon } from './base'
+import { Polygon } from './polygon'
+import { Vertex } from './vertex'
+import { Vector } from './vector'
 
 export enum PathCommandTypes {
   MOVE = 'move',

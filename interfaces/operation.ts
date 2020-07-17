@@ -1,4 +1,5 @@
-import { Polygon, Vertex } from '../geom'
+import { Polygon } from './polygon'
+import { Vertex } from './vertex'
 
 export enum OperationTargets {
   POLY = 'polygon',

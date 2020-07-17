@@ -1,7 +1,7 @@
-import { Sequence } from './sequences'
-import { Shape } from './shapes'
-import { Transform } from './transform/transform'
-import { Polygon } from './geom'
+import { Sequence } from './sequence'
+import { Shape } from './shape'
+import { Transform } from './transform'
+import { Polygon } from './polygon'
 
 export interface AppState {
   sequence: Sequence

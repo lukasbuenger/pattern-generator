@@ -10,11 +10,11 @@ import {
   SVGViewport,
   PolygonRenderer,
 } from '../renderers/svg-renderer'
+import { Polygon } from '../../interfaces/polygon'
 import {
-  Polygon,
   Vertex,
-  vertexNames,
-} from '../../lib/geom'
+  VERTEX_NAMES,
+} from '../../interfaces/vertex'
 
 const useStyles = makeStyles(
   ({ palette, spacing }: Theme) => ({
@@ -152,7 +152,7 @@ const DragButton: FC<DragButtonProps> = ({
       onStop={handleDragStop}
     >
       <DragHandle selected={selected}>
-        {vertexNames[vertexIndex]}
+        {VERTEX_NAMES[vertexIndex]}
       </DragHandle>
     </Draggable>
   )

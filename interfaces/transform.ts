@@ -1,6 +1,6 @@
-import { Modulator } from './modulators'
-import { Operation } from './operations'
-import { Polygon } from '../geom'
+import { Modulator } from './modulator'
+import { Operation } from './operation'
+import { Polygon } from './polygon'
 
 export interface Transform {
   name: string

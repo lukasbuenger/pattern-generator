@@ -15,7 +15,7 @@ import {
   ModulatorTypes,
   ModuloModulator,
   MultiplyModulator,
-} from '../../../../lib/transform/modulators'
+} from '../../interfaces/modulator'
 import { ModuloModulatorControl } from './modulo-modulator-control'
 import { IntegerModulatorControl } from './integer-modulator-control'
 import { MultiplyModulatorControl } from './multiply-modulator-control'

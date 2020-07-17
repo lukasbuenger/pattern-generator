@@ -8,9 +8,9 @@ import {
 import {
   VertexOperation,
   VertexOperationTypes,
-} from '../../../../lib/transform/operations'
-import { vertexNames } from '../../../../lib/geom'
-import { useShape } from '../../../app'
+} from '../../interfaces/operation'
+import { VERTEX_NAMES } from '../../interfaces/vertex'
+import { useShape } from '../app-provider'
 
 export interface VertexOperationControlProps {
   operation: VertexOperation
@@ -26,7 +26,7 @@ export const VertexOperationControl: FC<VertexOperationControlProps> = ({
   for (let i = 0; i < shape.length; i += 1) {
     vertexMenuItems.push(
       <MenuItem dense key={`vertex-option-${i}`} value={i}>
-        {vertexNames[i]}
+        {VERTEX_NAMES[i]}
       </MenuItem>,
     )
   }

@@ -1,13 +1,13 @@
 import { FC } from 'react'
 import { TextField } from '@material-ui/core'
-import { ModuloModulator } from '../../../../lib/transform/modulators'
+import { MultiplyModulator } from '../../interfaces/modulator'
 
-export interface ModuloModulatorControlProps {
-  modulator: ModuloModulator
-  onChange?: (modulator: ModuloModulator) => void
+export interface MultiplyModulatorControlProps {
+  modulator: MultiplyModulator
+  onChange?: (modulator: MultiplyModulator) => void
 }
 
-export const ModuloModulatorControl: FC<ModuloModulatorControlProps> = ({
+export const MultiplyModulatorControl: FC<MultiplyModulatorControlProps> = ({
   modulator,
   onChange,
 }) => {

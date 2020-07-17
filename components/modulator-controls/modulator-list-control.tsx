@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import {
+  Typography,
   Box,
   IconButton,
   makeStyles,
   Theme,
-  Typography,
   Paper,
 } from '@material-ui/core'
 
@@ -14,10 +14,10 @@ import {
   ArrowDownward,
   Add,
 } from '@material-ui/icons'
-import { Operation } from '../../../../lib/transform/operations'
+import { Modulator } from '../../interfaces/modulator'
 
-import { OperationControl } from './operation-control'
-import { SimpleList } from '../../../../lib/utils/simple-list'
+import { ModulatorControl } from './modulator-control'
+import { SimpleList } from '../../interfaces/simple-list'
 
 const useStyles = makeStyles(
   ({ palette, spacing }: Theme) => ({
@@ -33,25 +33,25 @@ const useStyles = makeStyles(
   }),
 )
 
-interface OperationListControlProps {
-  operations: Operation[]
-  onChange: (operations: Operation[]) => void
+interface ModulatorListConrolProps {
+  modulators: Modulator[]
+  onChange: (operations: Modulator[]) => void
 }
 
-export const OperationListControl: FC<OperationListControlProps> = ({
-  operations,
+export const ModulatorListControl: FC<ModulatorListConrolProps> = ({
+  modulators,
   onChange,
 }) => {
   const styles = useStyles()
-  const displays = !operations.length ? (
+  const displays = !modulators.length ? (
     <Typography
       className={styles.operationItem}
       color="textSecondary"
     >
-      No operations
+      No modulators
     </Typography>
   ) : (
-    operations.map((item, index) => (
+    modulators.map((item, index) => (
       <Box
         key={index}
         display="flex"
@@ -60,11 +60,11 @@ export const OperationListControl: FC<OperationListControlProps> = ({
         className={styles.operationItem}
       >
         <div>
-          <OperationControl
-            operation={item}
+          <ModulatorControl
+            modulator={item}
             onChange={(o) => {
               onChange(
-                SimpleList.updateItem(operations, index, o),
+                SimpleList.updateItem(modulators, index, o),
               )
             }}
           />
@@ -74,7 +74,7 @@ export const OperationListControl: FC<OperationListControlProps> = ({
             size="small"
             onClick={() => {
               onChange(
-                SimpleList.moveItemUp(operations, index),
+                SimpleList.moveItemUp(modulators, index),
               )
             }}
           >
@@ -84,7 +84,7 @@ export const OperationListControl: FC<OperationListControlProps> = ({
             size="small"
             onClick={() => {
               onChange(
-                SimpleList.moveItemDown(operations, index),
+                SimpleList.moveItemDown(modulators, index),
               )
             }}
           >
@@ -94,7 +94,7 @@ export const OperationListControl: FC<OperationListControlProps> = ({
             size="small"
             onClick={() => {
               onChange(
-                SimpleList.removeItem(operations, index),
+                SimpleList.removeItem(modulators, index),
               )
             }}
           >
@@ -113,15 +113,15 @@ export const OperationListControl: FC<OperationListControlProps> = ({
         alignItems="center"
       >
         <Typography variant="subtitle1" gutterBottom>
-          Operations
+          Modulators
         </Typography>
         <IconButton
           size="small"
           onClick={() => {
             onChange(
               SimpleList.addItem(
-                operations,
-                Operation.createDefault(),
+                modulators,
+                Modulator.createDefault(),
               ),
             )
           }}

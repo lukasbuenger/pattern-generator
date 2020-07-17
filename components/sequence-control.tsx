@@ -10,9 +10,9 @@ import {
 import {
   Sequence,
   SequenceTypes,
-} from '../../lib/sequences'
+} from '../interfaces/sequence'
 
-import { ComboRangeInput } from '../form/combo-range-input'
+import { ComboRangeInput } from './form/combo-range-input'
 
 export interface SequenceControlProps {
   sequence: Sequence

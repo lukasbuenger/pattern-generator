@@ -8,7 +8,7 @@ import {
 import {
   IntegerModulator,
   IntegerConversionTypes,
-} from '../../../../lib/transform/modulators'
+} from '../../interfaces/modulator'
 
 export interface IntegerModulatorControlProps {
   modulator: IntegerModulator

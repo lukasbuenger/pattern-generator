@@ -1,6 +1,7 @@
 import { FC, SVGProps } from 'react'
 
-import { Polygon, SVGPath } from '../../lib/geom'
+import { Polygon } from '../../interfaces/polygon'
+import { SVGPath } from '../../interfaces/svg-path'
 
 export interface PolygonRendererProps
   extends SVGProps<SVGPathElement> {

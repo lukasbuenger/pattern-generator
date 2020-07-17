@@ -1,5 +1,5 @@
 import { FC, createContext, useContext } from 'react'
-import { AppState } from '../lib/app-state'
+import { AppState } from '../interfaces/app-state'
 
 export interface AppProviderProps {
   state: AppState

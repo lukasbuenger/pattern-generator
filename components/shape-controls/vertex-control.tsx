@@ -1,11 +1,11 @@
-import { Vertex } from '../../../lib/geom'
+import { Vertex } from '../../interfaces/vertex'
 import { FC } from 'react'
 import {
   Box,
   FormControlLabel,
   Switch,
 } from '@material-ui/core'
-import { ComboRangeInput } from '../../form/combo-range-input'
+import { ComboRangeInput } from '../form/combo-range-input'
 
 const emptyVertex: Vertex = [[0, 0], 0, false]
 

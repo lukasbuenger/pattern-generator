@@ -14,7 +14,7 @@ import {
   Operation,
   OperationTargets,
   PolygonOperation,
-} from '../../../../lib/transform/operations'
+} from '../../interfaces/operation'
 import { VertexOperationControl } from './vertex-operation-control'
 import { PolyOperationControl } from './poly-operation-control'
 

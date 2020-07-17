@@ -15,10 +15,12 @@ import {
   ModulatorTypes,
   ModuloModulator,
   MultiplyModulator,
+  DivideModulator,
 } from '../../interfaces/modulator'
 import { ModuloModulatorControl } from './modulo-modulator-control'
 import { IntegerModulatorControl } from './integer-modulator-control'
 import { MultiplyModulatorControl } from './multiply-modulator-control'
+import { DivideModulatorControl } from './divide-modulator-control'
 
 export interface ModulatorControlProps {
   modulator: Modulator
@@ -55,6 +57,13 @@ export const ModulatorControl: FC<ModulatorControlProps> = ({
         onChange={onChange}
       />
     )
+  } else if (DivideModulator.isDivideModulator(modulator)) {
+    innerControl = (
+      <DivideModulatorControl
+        modulator={modulator}
+        onChange={onChange}
+      />
+    )
   } else {
     innerControl = (
       <IntegerModulatorControl
@@ -78,6 +87,9 @@ export const ModulatorControl: FC<ModulatorControlProps> = ({
           </MenuItem>
           <MenuItem dense value={ModulatorTypes.MULTIPLY}>
             Multiply
+          </MenuItem>
+          <MenuItem dense value={ModulatorTypes.DIVIDE}>
+            Divide
           </MenuItem>
           <MenuItem dense value={ModulatorTypes.INTEGER}>
             To integer

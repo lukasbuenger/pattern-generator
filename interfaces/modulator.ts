@@ -2,6 +2,7 @@ export enum ModulatorTypes {
   MODULO = 'modulo',
   MULTIPLY = 'multiply',
   INTEGER = 'integer',
+  DIVIDE = 'divide',
 }
 
 export interface ModuloModulator {
@@ -61,6 +62,33 @@ export const MultiplyModulator = {
   },
 }
 
+export interface DivideModulator {
+  modulator: ModulatorTypes.DIVIDE
+  value: number
+}
+export const DivideModulator = {
+  create(value: number): DivideModulator {
+    return { modulator: ModulatorTypes.DIVIDE, value }
+  },
+  isDivideModulator(
+    f: Record<string, any>,
+  ): f is DivideModulator {
+    return f.modulator === ModulatorTypes.DIVIDE
+  },
+  assert(m: Record<string, any>): DivideModulator {
+    if (DivideModulator.isDivideModulator(m)) {
+      return m
+    }
+    return {
+      modulator: ModulatorTypes.DIVIDE,
+      value: m.value ?? 1,
+    }
+  },
+  apply({ value }: DivideModulator, input: number): number {
+    return input / value
+  },
+}
+
 export enum IntegerConversionTypes {
   ROUND = 'round',
   FLOOR = 'floor',
@@ -110,6 +138,7 @@ export type Modulator =
   | ModuloModulator
   | MultiplyModulator
   | IntegerModulator
+  | DivideModulator
 
 export const Modulator = {
   createDefault(): Modulator {
@@ -123,6 +152,8 @@ export const Modulator = {
       return ModuloModulator.assert(m)
     } else if (type === ModulatorTypes.MULTIPLY) {
       return MultiplyModulator.assert(m)
+    } else if (type === ModulatorTypes.DIVIDE) {
+      return DivideModulator.assert(m)
     } else {
       return IntegerModulator.assert(m)
     }
@@ -132,6 +163,8 @@ export const Modulator = {
       return ModuloModulator.apply(m, input)
     } else if (IntegerModulator.isIntegerModulator(m)) {
       return IntegerModulator.apply(m, input)
+    } else if (DivideModulator.isDivideModulator(m)) {
+      return DivideModulator.apply(m, input)
     } else {
       return MultiplyModulator.apply(m, input)
     }

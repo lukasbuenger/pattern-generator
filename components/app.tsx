@@ -9,15 +9,15 @@ interface AppState {
   transforms: Transform[]
 }
 
+export interface AppProviderProps {
+  state: AppState
+}
+
 const AppContext = createContext<AppState>({
   sequence: Sequence.createDefault(),
   shape: Shape.createDefault(),
   transforms: [],
 })
-
-export interface AppProviderProps {
-  state: AppState
-}
 
 export const AppProvider: FC<AppProviderProps> = ({
   children,

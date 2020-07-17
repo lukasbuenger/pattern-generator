@@ -1,10 +1,5 @@
 import { FC, useState, useCallback } from 'react'
-import {
-  Theme,
-  Box,
-  Checkbox,
-  Typography,
-} from '@material-ui/core'
+import { Theme, Box, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 import Draggable, {
@@ -15,8 +10,11 @@ import {
   SVGViewport,
   PolygonRenderer,
 } from '../renderer/svg'
-import { Polygon, vertexNames } from '../../lib/geom'
-import { ComboRangeInput } from '../form/combo-range-input'
+import {
+  Polygon,
+  Vertex,
+  vertexNames,
+} from '../../lib/geom'
 
 const useStyles = makeStyles(
   ({ palette, spacing }: Theme) => ({
@@ -79,12 +77,12 @@ function useDragHandler(
       e.preventDefault()
       e.stopPropagation()
       const { x, y } = data
+      const vertex = polygon[vertexIndex]
       handler(
-        Polygon.updateVertexPosition(
+        Polygon.setVertex(
           polygon,
           vertexIndex,
-          x,
-          y,
+          Vertex.setY(Vertex.setX(vertex, x), y),
         ),
       )
     },
@@ -172,8 +170,8 @@ export const ShapeControl: FC<ShapeControlProps> = ({
   const styles = useStyles()
   const [localShape, updateLocalShape] = useState(shape)
   const [selectedVertex, setSelectedVertex] = useState<
-    number | null
-  >(null)
+    number | undefined
+  >()
 
   const dragHandles = localShape.map((_, index) => {
     return (
@@ -194,64 +192,13 @@ export const ShapeControl: FC<ShapeControlProps> = ({
       <Typography variant="h5">Shape</Typography>
       <div
         className={styles.container}
-        onMouseDown={() => setSelectedVertex(null)}
+        onMouseDown={() => setSelectedVertex(undefined)}
       >
         <SVGViewport>
           <PolygonRenderer polygon={localShape} />
         </SVGViewport>
         {dragHandles}
       </div>
-    </Box>
-  )
-}
-
-interface VertexFormProps {
-  polygon: Polygon
-  vertexIndex: number
-  onChange: (polygon: Polygon) => void
-}
-
-export const VertexForm: FC<VertexFormProps> = ({
-  polygon,
-  vertexIndex,
-  onChange,
-}) => {
-  const [[x, y], radius, abs] = polygon[vertexIndex]
-
-  return (
-    <Box flexDirection="column">
-      <ComboRangeInput
-        label="X"
-        min={0}
-        max={200}
-        step={1}
-        value={x}
-        onChange={(v) => {
-          onChange(
-            Polygon.updateVertexPosition(
-              polygon,
-              vertexIndex,
-              v,
-              y,
-            ),
-          )
-        }}
-      />
-      <ComboRangeInput
-        label="Y"
-        min={0}
-        max={y}
-        step={200}
-        value={y}
-      />
-      <ComboRangeInput
-        label="Radius"
-        min={0}
-        max={100}
-        step={1}
-        value={radius}
-      />
-      <Checkbox checked={abs} />
     </Box>
   )
 }

@@ -2,9 +2,9 @@ import { FC, useState } from 'react'
 import {
   TextField,
   withStyles,
-  ExpansionPanel as MuiExpansionPanel,
-  ExpansionPanelSummary as MuiExpansionPanelSummary,
-  ExpansionPanelDetails as MuiExpansionPanelDetails,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   IconButton,
 } from '@material-ui/core'
 
@@ -32,7 +32,7 @@ const ExpansionPanel = withStyles({
     },
   },
   expanded: {},
-})(MuiExpansionPanel)
+})(Accordion)
 
 const ExpansionPanelSummary = withStyles({
   root: {
@@ -54,14 +54,14 @@ const ExpansionPanelSummary = withStyles({
     alignItems: 'center',
   },
   expanded: {},
-})(MuiExpansionPanelSummary)
+})(AccordionSummary)
 
 const ExpansionPanelDetails = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
     flexDirection: 'column',
   },
-}))(MuiExpansionPanelDetails)
+}))(AccordionDetails)
 
 export interface TransformControlProps {
   transform: Transform

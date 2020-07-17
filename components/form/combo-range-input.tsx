@@ -11,6 +11,7 @@ export interface ComboRangeInputProps {
   min?: number
   max?: number
   step?: number
+  disabled?: boolean
   onChange?: (value: number) => void
   value: number
 }
@@ -19,6 +20,7 @@ export const ComboRangeInput: FC<ComboRangeInputProps> = ({
   label,
   onChange,
   value,
+  disabled,
   ...props
 }) => {
   const [localValue, updateLocalValue] = useState(value)
@@ -63,6 +65,7 @@ export const ComboRangeInput: FC<ComboRangeInputProps> = ({
       >
         <Box flexGrow={1} mr={1}>
           <Slider
+            disabled={disabled}
             {...props}
             value={localValue}
             onChange={handleSliderChange}
@@ -71,6 +74,7 @@ export const ComboRangeInput: FC<ComboRangeInputProps> = ({
         </Box>
         <Box flexGrow={0} flexBasis="45px">
           <InputBase
+            disabled={disabled}
             {...props}
             type="number"
             margin="dense"

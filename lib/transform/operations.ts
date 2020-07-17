@@ -106,19 +106,19 @@ export const VertexOperation = {
     }
     switch (operation) {
       case VertexOperationTypes.TRANSLATE_X:
-        return Polygon.replaceVertex(
+        return Polygon.setVertex(
           poly,
           index,
           Vertex.translateX(vertex, value),
         )
       case VertexOperationTypes.TRANSLATE_Y:
-        return Polygon.replaceVertex(
+        return Polygon.setVertex(
           poly,
           index,
           Vertex.translateY(vertex, value),
         )
       case VertexOperationTypes.TRANSLATE_RADIUS:
-        return Polygon.replaceVertex(
+        return Polygon.setVertex(
           poly,
           index,
           Vertex.translateRadius(vertex, value),

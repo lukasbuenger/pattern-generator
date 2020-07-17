@@ -1,39 +1,82 @@
+import { useEffect, FC, useState, useMemo } from 'react'
+import { Transform } from '../lib/transform/transform'
+import { Sequence } from '../lib/sequences'
+import { Shape } from '../lib/shapes'
+
 import {
   Layout,
   Header,
   Sidebar,
-  // Canvas,
+  Main,
 } from '../components/layout'
+import { TransformListControl } from '../components/controls/transforms/transform-list-control'
+import { SequenceControl } from '../components/controls/sequence-control'
+import { ShapeControl } from '../components/controls/shape-control'
+import { AppProvider } from '../components/app'
+import { AppState } from '../lib/app-state'
+import { SVGRenderer } from '../components/renderers/svg-renderer'
+import { Polygon } from '../lib/geom'
 
-// import { Renderer } from '../components/renderer'
-import { GridControl } from '../components/control/grid'
-import { ShapeControl } from '../components/control/shape'
-import { useGrid } from '../components/state/grid'
+const Page: FC = () => {
+  useEffect(() => {
+    document.getElementById('jss-server-side')?.remove()
+  }, [])
 
-// import { polygon, vertex } from '../lib/geom'
+  const [transforms, updateTransforms] = useState<
+    Transform[]
+  >([])
 
-// const a = vertex(20, 20, 20)
-// const b = vertex(700, 20, 20)
-// const c = vertex(400, 300, 20)
-// const d = vertex(300, 150, 50)
-// const e = vertex(200, 300, 20)
+  const [sequence, updateSequence] = useState<Sequence>(
+    Sequence.createDefault(),
+  )
+  const [shape, updateShape] = useState<Shape>(
+    Shape.createDefault(),
+  )
 
-// const poly = polygon(a, b, c, d, e)
+  const appState = useMemo(
+    () => ({
+      sequence,
+      shape,
+      transforms,
+    }),
+    [sequence, shape, transforms],
+  )
 
-export default () => {
-  const [grid, onGridChange] = useGrid()
+  const [output, updateOutput] = useState<Polygon[]>(
+    AppState.toPolygons(appState),
+  )
+
   return (
-    <Layout>
-      <Header>Hellow App!</Header>
-      <Sidebar>
-        <GridControl
-          onChange={onGridChange}
-          width={grid.width}
-          height={grid.height}
-          spacing={grid.spacing}
-        />
-      </Sidebar>
-      <ShapeControl />
-    </Layout>
+    <AppProvider state={appState}>
+      <Layout>
+        <Header>Hellow App!</Header>
+        <Sidebar>
+          <ShapeControl
+            shape={shape}
+            onChange={updateShape}
+          />
+          <SequenceControl
+            sequence={sequence}
+            onChange={updateSequence}
+          />
+          <TransformListControl
+            transforms={transforms}
+            onChange={updateTransforms}
+          />
+          <button
+            onClick={() =>
+              updateOutput(AppState.toPolygons(appState))
+            }
+          >
+            Boom
+          </button>
+        </Sidebar>
+        <Main>
+          <SVGRenderer polygons={output} />
+        </Main>
+      </Layout>
+    </AppProvider>
   )
 }
+
+export default Page

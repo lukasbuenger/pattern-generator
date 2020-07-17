@@ -1,26 +1,28 @@
-import { SFC, SVGProps } from 'react'
+import { FC, SVGProps } from 'react'
 
-import { Polygon, polyAsSVGPath } from '../../lib/geom'
+import { Polygon, SVGPath } from '../../lib/geom'
 
 export interface PolygonRendererProps
   extends SVGProps<SVGPathElement> {
   polygon: Polygon
 }
 
-export const PolygonRenderer: SFC<PolygonRendererProps> = ({
+export const PolygonRenderer: FC<PolygonRendererProps> = ({
   polygon,
   ...props
 }) => {
-  return <path d={polyAsSVGPath(polygon)} {...props} />
+  return (
+    <path d={SVGPath.fromPolygon(polygon)} {...props} />
+  )
 }
 
-export interface CanvasProps
+export interface SVGViewportProps
   extends SVGProps<SVGSVGElement> {
   viewboxWidth?: number
   viewboxHeight?: number
 }
 
-export const Canvas: SFC<CanvasProps> = ({
+export const SVGViewport: FC<SVGViewportProps> = ({
   children,
   width,
   height,
@@ -53,7 +55,7 @@ export interface RendererProps {
   viewboxHeight?: number
 }
 
-export const Renderer: SFC<RendererProps> = ({
+export const SVGRenderer: FC<RendererProps> = ({
   polygons,
   width = 800,
   height = 800,
@@ -71,12 +73,12 @@ export const Renderer: SFC<RendererProps> = ({
     },
   )
   return (
-    <Canvas
+    <SVGViewport
       width={width}
       height={height}
       viewBox={`0 0 ${viewboxWidth} ${viewboxHeight}`}
     >
       {renderedPolys}
-    </Canvas>
+    </SVGViewport>
   )
 }

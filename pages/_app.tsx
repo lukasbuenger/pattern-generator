@@ -1,21 +1,18 @@
-import NextApp, { Container } from 'next/app'
+import NextApp from 'next/app'
+import { ThemeProvider } from '@material-ui/styles'
+import { CssBaseline } from '@material-ui/core'
 
-import { Grommet } from 'grommet'
-import { grommet } from 'grommet/themes'
-import { AppProvider } from '../components/state/app'
+import { theme } from '../lib/theme'
 
 class App extends NextApp {
   public render() {
     const { Component, pageProps } = this.props
 
     return (
-      <Container>
-        <Grommet theme={grommet}>
-          <AppProvider>
-            <Component {...pageProps} />
-          </AppProvider>
-        </Grommet>
-      </Container>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
     )
   }
 }
